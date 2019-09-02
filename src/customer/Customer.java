@@ -88,8 +88,13 @@ public class Customer {
 			try {
 				System.out.println("\n\n-- MENU --\n1. Place a new order\n2. My Orders\n\nEnter your choice (1 or 2): ");
 				option = input.nextInt();
+				
+				if(option > 2 || option < 1) {
+					System.out.println("Invalid menu number entered. A valid menu option is required.");
+				}
+				
 			} catch (InputMismatchException ex) {
-				System.out.println("Invalid menu number entered. A valid menu option is required. Enter you choice again: ");
+				System.out.println("Invalid menu number entered. A valid menu option is required.");
 				if(input.hasNextInt()) {
 					option = input.nextInt();
 				} else {
@@ -99,15 +104,7 @@ public class Customer {
 				 //The error occurs here
 			}
 		}
-		
-//		try {
-//			
-//			int option = input.nextInt();
-//			
-//			while(!(option == 2 || option == 1)) {
-//				System.out.println("Invalid menu number entered. A valid menu option is required. Enter you choice again: ");
-//				option = input.nextInt();
-//			}
+
 			
 			switch(option) {
 			case 1:
@@ -120,10 +117,6 @@ public class Customer {
 				System.out.println("Default is running");
 				break;
 			}
-//		} catch(InputMismatchException ex) {
-//			System.out.println("Invalid menu number entered. A valid menu option is required. Enter you choice again: ");
-//			input.nextInt();
-//		}
 		
 	}//end of show menu
 	
