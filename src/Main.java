@@ -30,7 +30,7 @@ public class Main {
 					Customer c = new Customer(username);
 					System.out.print("Welcome "+c.getcustomerName()+"!");
 					
-					c.showMenu();
+					c.showMainMenu();
 					
 				} else {
 					System.out.print("Welcome "+username+"!"); //Admin

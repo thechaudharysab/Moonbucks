@@ -15,9 +15,7 @@ public class Customer {
 	
 	//Constructor
 	public Customer(String username) {
-		
 		setCustomerValues(username);
-		
 	}
 	
 	//Getter
@@ -74,14 +72,14 @@ public class Customer {
 	}
 	
 	//Methods
-	public void showMenu() {
+	public void showMainMenu() {
 		
 		int option = 0;
 		
 		while(!(option == 2 || option == 1)) {
 			
 			try {
-				System.out.println("\n\n-- MENU --\n1. Place a new order\n2. My Orders\n\nEnter your choice (1 or 2): ");
+				System.out.println("\n\n-- MENU --\nPress 1 to Place a new order\nPress 2 to view your Orders\n\nEnter your choice (1 or 2): ");
 				option = input.nextInt();
 				
 				if(option > 2 || option < 1) {
@@ -100,13 +98,12 @@ public class Customer {
 			}
 		}
 
-			
 		switch(option) {
 			case 1:
 				System.out.println("You have entered: "+option);
 				break;
 			case 2:
-				System.out.println("You have entered: "+option);
+				myOrdersMenu();
 				break;
 			default:
 				System.out.println("Default is running");
@@ -115,5 +112,46 @@ public class Customer {
 		
 	}//end of show menu
 	
+	private void myOrdersMenu() {
+		
+		int option = 3;
+		
+		while(!(option == 2 || option == 1 || option == 0)) {
+			
+			try {
+				System.out.println("\n\n-- MENU --\nPress 1 to search orders\nPress 2 to see all your orders\nPress 0 to go back to main menu\n\nEnter your choice: ");
+				option = input.nextInt();
+				
+				if(option > 2 || option < 0) {
+					System.out.println("Invalid menu number entered. A valid menu option is required.");
+				}
+				
+			} catch (InputMismatchException ex) {
+				System.out.println("Invalid menu number entered. A valid menu option is required.");
+				if(input.hasNextInt()) {
+					option = input.nextInt();
+				} else {
+					input.next();
+					continue;
+				}
+				 //The error occurs here
+			}
+		}
+
+		switch(option) {
+		case 0:
+			showMainMenu();
+			break;
+		case 1:
+				System.out.println("You have entered: "+option);
+				break;
+		case 2:
+				System.out.println("You have entered: "+option);
+				break;
+		default:
+				System.out.println("Default is running");
+				break;
+			}
+	}
 
 }
