@@ -18,7 +18,7 @@ public class Customer {
 	private static Scanner input = new Scanner(System.in);
 	Writer output;
 	
-	//Constructor
+	//Constructors
 	public Customer(String username) {
 		readAndSetCustomerValues(username);
 	}
@@ -188,11 +188,6 @@ public class Customer {
 					+customerName+"-"
 					+customerAddress+"-"
 					+customerPhone+"\n");
-			
-//			//output.append(customerID+"-"
-//					+customerName+"-"
-//					+customerAddress+"-"
-//					+customerPhone+"\n");
 			
 			output.close();
 			

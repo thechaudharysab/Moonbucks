@@ -1,4 +1,8 @@
 package admin;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import customer.Customer;
@@ -6,6 +10,7 @@ import customer.Customer;
 public class Admin {
 	
 	private static Scanner input = new Scanner(System.in);
+	private static String customersLoginFilePath = "src/TextFiles/CustomerLogin.txt";
 	
 	public Admin() {
 		System.out.print("Welcome Admin");
@@ -235,11 +240,18 @@ public class Admin {
 		System.out.println("Phone: ");
 		customerPhone = input.next();
 		customerPhone += input.nextLine();
-
+		
 		System.out.println("Username: ");
 		customerID = input.next();
 		customerID += input.nextLine();
 		
+		while(isUsernameAvailable(customerID) == false) {
+			
+			System.out.println(customerID+" is already taken. \nUsername: ");
+			customerID = input.next();
+			customerID += input.nextLine();
+			
+		}
 		System.out.println("Create Password: ");
 		password = input.next();
 		password += input.nextLine();
@@ -251,4 +263,39 @@ public class Admin {
 		
 		
 	}
+	
+	private Boolean isUsernameAvailable(String username) {
+		
+		String oneLine = null;
+		Boolean doesExist = true;
+		
+		try {
+			
+			FileReader customerFileReader = new FileReader(customersLoginFilePath);
+			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+			
+			while((oneLine = customerBufferedReader.readLine()) != null) {
+				
+				String[] arrOfAdmin = oneLine.split("-");
+				
+				if(arrOfAdmin[0].equals(username)) {
+						doesExist = false;
+					}
+            }//end of while
+			
+			customerBufferedReader.close();
+			
+		}catch(FileNotFoundException ex) {
+			System.out.println("*Unable to open file '" + customersLoginFilePath + "' " + ex.getMessage()+"*");
+		}//end of FileNotFoundException
+		catch(IOException ex) {
+            System.out.println("Error reading file '" + customersLoginFilePath + "' " + ex.getMessage()+"*");
+        }//end of IOException
+		catch(NullPointerException ex) {
+			System.out.println("Error: "+ ex.getMessage()+"*");
+		}//end of NullPointerException
+		
+		return doesExist;
+	}
+
 }
