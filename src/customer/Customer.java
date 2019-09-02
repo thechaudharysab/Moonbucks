@@ -13,16 +13,11 @@ public class Customer {
 	private static String customersFilePath = "src/TextFiles/Customers.txt";
 	private static Scanner input = new Scanner(System.in);
 	
-	Boolean isValid = false;
-	
 	//Constructor
 	public Customer(String username) {
 		
 		setCustomerValues(username);
 		
-		//while(isValid == false) {
-			showMenu();
-		//}
 	}
 	
 	//Getter
@@ -106,7 +101,7 @@ public class Customer {
 		}
 
 			
-			switch(option) {
+		switch(option) {
 			case 1:
 				System.out.println("You have entered: "+option);
 				break;
