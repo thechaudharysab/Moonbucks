@@ -5,17 +5,33 @@ import java.util.Scanner;
 
 public class Customer {
 	
-	String customerID;
-	String customerName;
-	String customerAddress;
-	String customerPhone;
+	private String customerID;
+	private String customerName;
+	private String customerAddress;
+	private String customerPhone;
+	
+	private String password;
 	
 	private static String customersFilePath = "src/TextFiles/Customers.txt";
+	private static String customersLoginFilePath = "src/TextFiles/CustomerLogin.txt";
+	
 	private static Scanner input = new Scanner(System.in);
+	Writer output;
 	
 	//Constructor
 	public Customer(String username) {
-		setCustomerValues(username);
+		readAndSetCustomerValues(username);
+	}
+	
+	public Customer(String username, String fullName, String address, String phone, String password) {
+		
+		this.customerID = username;
+		this.customerName = fullName;
+		this.customerAddress = address;
+		this.customerPhone = phone;
+		this.password = password;
+		
+		//writeNewUserToFile();
 	}
 	
 	//Getter
@@ -36,7 +52,7 @@ public class Customer {
 	}
 	
 	//Setter
-	private void setCustomerValues(String username) {
+	private void readAndSetCustomerValues(String username) {
 		
 		try {
 			FileReader customerFileReader = new FileReader(customersFilePath);
@@ -71,6 +87,7 @@ public class Customer {
 		
 	}
 	
+	
 	//Methods
 	public void showMainMenu() {
 		
@@ -79,7 +96,11 @@ public class Customer {
 		while(!(option == 2 || option == 1)) {
 			
 			try {
-				System.out.println("\n\n-- MENU --\nPress 1 to Place a new order\nPress 2 to view your Orders\n\nEnter your choice (1 or 2): ");
+				System.out.println("\n\n-- MENU --\n"
+						+ "Enter 1 to Place a new order\n"
+						+ "Enter 2 to view your orders\n\n"
+						+ "Enter your choice: ");
+				
 				option = input.nextInt();
 				
 				if(option > 2 || option < 1) {
@@ -119,7 +140,12 @@ public class Customer {
 		while(!(option == 2 || option == 1 || option == 0)) {
 			
 			try {
-				System.out.println("\n\n-- MENU --\nPress 1 to search orders\nPress 2 to see all your orders\nPress 0 to go back to main menu\n\nEnter your choice: ");
+				System.out.println("\n\n-- MENU --\n"
+						+ "Enter 1 to search orders\n"
+						+ "Enter 2 to see all your orders\n"
+						+ "----\n"
+						+ "Enter 0 to go back to main menu\n\n"
+						+ "Enter your choice: ");
 				option = input.nextInt();
 				
 				if(option > 2 || option < 0) {
@@ -153,5 +179,35 @@ public class Customer {
 				break;
 			}
 	}
-
+	
+	public void writeNewUserToFile() {
+		
+		try {
+			output = new BufferedWriter(new FileWriter(customersFilePath, true));
+			output.write(customerID+"-"
+					+customerName+"-"
+					+customerAddress+"-"
+					+customerPhone+"\n");
+			
+//			//output.append(customerID+"-"
+//					+customerName+"-"
+//					+customerAddress+"-"
+//					+customerPhone+"\n");
+			
+			output.close();
+			
+			output = new BufferedWriter(new FileWriter(customersLoginFilePath, true));
+			output.write(customerID+"-"
+					+password+"\n");
+			
+			output.close();
+			
+			System.out.println("*Successfully Added New User*");
+			
+			
+		} catch(IOException ex) {
+			System.out.println("Error: " + ex.getMessage());
+		}
+	}
+	
 }

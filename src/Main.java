@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 import customer.Customer;
+import admin.Admin;
 
 public class Main {
 
@@ -33,7 +34,11 @@ public class Main {
 					c.showMainMenu();
 					
 				} else {
-					System.out.print("Welcome "+username+"!"); //Admin
+					
+					Admin a = new Admin();
+					//System.out.print("Welcome "+username+"!"); //Admin
+					a.adminMainMenu();
+					
 				}
 			}
 			
