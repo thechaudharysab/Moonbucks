@@ -7,25 +7,31 @@ import java.io.IOException;
 
 public interface MainInterface {
 	
-	public static String adminLoginFilePath = "src/TextFiless/AdminLogin.txt";
+	public static String adminLoginFilePath = "src/TextFiles/AdminLogin.txt";
 	public static String customersLoginFilePath = "src/TextFiles/CustomerLogin.txt";
 	public static String customersFilePath = "src/TextFiles/Customers.txt";
 	public static String ordersFilePath = "src/TextFiles/Orders.txt";
 	public static String productsFilePath = "src/TextFiles/Products.txt";
+	public static String tempFilePath = "src/TextFiles/Temp.txt";
 	
 	// Methods
 	
-	public static Boolean isValidInput(String enteredInt, int limit) {
+	public static Boolean isValidInput(String enteredVal, int limit) {
 		
 		try{
-			int numericEnteredValue = Integer.parseInt(enteredInt);
-			if(numericEnteredValue > limit || numericEnteredValue < 0) {
-				System.out.println("Invalid menu number entered. A valid menu option is required.");
+			int numericEnteredValue = Integer.parseInt(enteredVal);
+			
+			//System.out.println(numericEnteredValue+" > "+limit+" < 0\n");
+			
+			if(numericEnteredValue > limit && numericEnteredValue < 0) {
+				System.out.println("Invalid menu number entered. A valid menu option is required 1.");
 				return false;
-			} else return true;
+			} else if (numericEnteredValue == -1) {
+				return false;
+			}else return true;
 			
         } catch(Exception exception) {
-        	System.out.println("Invalid menu number entered. A valid menu option is required.");
+        	System.out.println("Invalid menu number entered. A valid menu option is required 2.");
         	return false;
         }
 	}

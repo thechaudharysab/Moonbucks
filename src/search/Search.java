@@ -4,15 +4,18 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.InputMismatchException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import constants.Type;
+import delete.Delete;
+import interfaces.MainInterface;
 
-public class Search {
+public class Search implements MainInterface {
 	
-	private int totalRecordsFound = 0;
-	
+	//private int totalRecordsFound = 0;
+	List<String> foundRecords;
 	String searchQuery = "";
 	private static Scanner input = new Scanner(System.in);
 	
@@ -24,17 +27,18 @@ public class Search {
 		
 		String searchQueryLowerCase = searchQuery.toLowerCase();
 		String filePath = "";
+		foundRecords = new ArrayList<String>();
 		
 		switch(searchType) {
 		
 		case CUSTOMER:
-			filePath = "src/TextFiles/Customers.txt";
+			filePath = customersFilePath;
 			break;
 		case ORDER:
-			filePath = "src/TextFiles/Orders.txt";
+			filePath = ordersFilePath;
 			break;
 		case PRODUCT:
-			filePath = "src/TextFiles/Products.txt";
+			filePath = productsFilePath;
 			break;
 		}//end of switch
 		
@@ -47,17 +51,18 @@ public class Search {
 			while((oneLine = customerBufferedReader.readLine()) != null) {
 				
 				if(oneLine.toLowerCase().contains(searchQueryLowerCase)) {
-					totalRecordsFound+=1;
+//					totalRecordsFound+=1;
 					System.out.print(oneLine+"\n---------------------------\n");
+					foundRecords.add(oneLine);
 				}
 				
 			}//end of while
 			
-			System.out.println("\nSearch finished. "+totalRecordsFound+" record(s) found");
+			System.out.println("\nSearch finished. "+foundRecords.size()+" record(s) found");
 			customerBufferedReader.close();
 			
-			if(totalRecordsFound > 0) {
-				searchMenu();
+			if(foundRecords.size() > 0) {
+				searchMenu(searchType);
 			}
 			
 		} catch(FileNotFoundException ex) {
@@ -71,45 +76,73 @@ public class Search {
 		}//end of NullPointerException
 	}
 	
-	private void searchMenu() {
+	private void searchMenu(Type searchType) throws FileNotFoundException, IOException {
 		
-		int option = 3;
+		String option = "-1";
 		
-		while(!(option == 2 || option == 1 || option == 0)) {
-			
-			try {
-				if(totalRecordsFound > 1) {
-					System.out.println("\nEnter 1 to edit these records\nEnter 2 to delete all of these records\nEnter 0 to go back to menu\nEnter your choice: ");
-				} else {
-					System.out.println("\nEnter 1 to edit this record\nEnter 2 to delete this record\nEnter 0 to go back to menu\nEnter your choice: ");
-				}
-				
-				option = input.nextInt();
-				
-				if(option > 2 || option < 0) {
-					System.out.println("Invalid menu number entered. A valid menu option is required.");
-				}
-				
-			} catch (InputMismatchException ex) {
-				System.out.println("Invalid menu number entered. A valid menu option is required.");
-				if(input.hasNextInt()) {
-					option = input.nextInt();
-				} else {
-					input.next();
-					continue;
-				}
-				 //The error occurs here
+		do {
+			if(foundRecords.size() > 1) {
+				System.out.println("\nEnter 1 to edit these records\nEnter 2 to delete all of these records\n--------------------\nEnter 0 to go back to menu\n\nEnter your choice: ");
+			} else {
+				System.out.println("\nEnter 1 to edit this record\nEnter 2 to delete this record\n--------------------\nEnter 0 to go back to menu\n\nEnter your choice: ");
 			}
-		}
-
+			
+			option = input.next();
+		} while(MainInterface.isValidInput(option, 2) == false); 
+		
 		switch(option) {
-			case 0:
+			case "0":
 				break;
-			case 1:
+			case "1":
+				//EDIT
 				System.out.println("1 is running");
 				break;
-			case 2:
-				System.out.println("2 is running");
+			case "2":
+				//DELETE
+				switch(searchType) {
+				
+				case CUSTOMER:
+					
+					//Delete customers login records
+					FileReader customerFileReader = new FileReader(customersLoginFilePath);
+					BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+					String oneLine = null;
+					
+					for(int i=0;i<foundRecords.size();i++) {
+						while((oneLine = customerBufferedReader.readLine()) != null) {
+							
+							String[] arrOfUser = oneLine.split("-");
+							String[] arrOfFoundRecords = foundRecords.get(i).split("-");
+							
+							if(arrOfUser[0].equals(arrOfFoundRecords[0])) {
+								Delete.deleteRecord(oneLine,customersLoginFilePath);
+								}
+			            }//end of while
+						
+						customerBufferedReader.close();
+					} //end of for-loop of customers login
+					
+					
+					//Delete customers records
+					for(int i=0;i<foundRecords.size();i++) {
+						Delete.deleteRecord(foundRecords.get(i),customersFilePath);
+						System.out.println("Deleted "+(i+1)+" of total "+foundRecords.size()+" records");
+					}
+					
+					break;
+				case ORDER:
+					for(int i=0;i<foundRecords.size();i++) {
+						Delete.deleteRecord(foundRecords.get(i),ordersFilePath);
+						System.out.println("Deleted "+i+++" of total "+foundRecords.size()+" records");
+					}
+					break;
+				case PRODUCT:
+					for(int i=0;i<foundRecords.size();i++) {
+						Delete.deleteRecord(foundRecords.get(i),productsFilePath);
+						System.out.println("Deleted "+i+++" of total "+foundRecords.size()+" records");
+					}
+					break;
+				}//end of switch searchType
 				break;
 			default:
 				System.out.println("Default is running");
@@ -117,5 +150,7 @@ public class Search {
 			}
 		
 	}
+	
+	
 	
 }

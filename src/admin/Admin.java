@@ -2,44 +2,44 @@ package admin;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import constants.Type;
 import customer.Customer;
 import interfaces.MainInterface;
-import search.Search;
 
 public class Admin implements MainInterface {
 	
 	private static Scanner input = new Scanner(System.in);
+	Customer c = new Customer();
 	
 	public Admin() {
-		System.out.print("Welcome Admin");
+		
 	}
 	
 	public void adminMainMenu() {
 		
 		String option = "-1";
 		
-		while(MainInterface.isValidInput(option, 3) == false) {
+		do {
+			System.out.println("\n\n-- MAIN MENU --\n"
+					+ "Enter 1 for Customers\n"
+					+ "Enetr 2 for Products\n"
+					+ "Enter 3 for Orders\n-----------\n"
+					+ "Enter 0 to exit\n\n"
+					+ "Enter your choice: ");
 			
-				System.out.println("\n\n-- MAIN MENU --\n"
-						+ "Enter 1 for Customers\n"
-						+ "Enetr 2 for Products\n"
-						+ "Enter 3 for Orders\n-----------\n"
-						+ "Enter 0 to exit\n\n"
-						+ "Enter your choice: ");
-				
-				option = input.next();
-				
-		}//end of while
-
-		switch(option) {
-			case "1":
-				customersMenu();
+			option = input.next();
+		} while(MainInterface.isValidInput(option, 3) == false); 
+			
+		//System.out.print("options here is: "+option+"\n");
+		
+		switch(Integer.parseInt(option)) {
+		
+			case 1:
+				c.menu(true);
 				break;
-			case "2":
+			case 2:
 				productsMenu();
 				break;
-			case "3":
+			case 3:
 				ordersMenu();
 				break;
 			default:
@@ -48,10 +48,6 @@ public class Admin implements MainInterface {
 			}
 	}
 	
-	private void customersMenu() {
-		Customer c = new Customer();
-		c.menu(true);
-	}
 	private void productsMenu() {
 		
 		int option = 4;
@@ -209,22 +205,22 @@ public class Admin implements MainInterface {
 //		customersMenu();
 //	}
 	
-	private void searchCustomer() {
-		
-		String searchQuery = "";
-		
-		System.out.print("\n* Search Customers *\n---------------------------\n");
-		System.out.println("Enter Search Query: ");
-		
-		searchQuery = input.next();
-		searchQuery += input.nextLine();
-		
-		Search s = new Search();
-		s.search(Type.CUSTOMER, searchQuery);
-		
-		customersMenu();
-		
-	}
+//	private void searchCustomer() {
+//		
+//		String searchQuery = "";
+//		
+//		System.out.print("\n* Search Customers *\n---------------------------\n");
+//		System.out.println("Enter Search Query: ");
+//		
+//		searchQuery = input.next();
+//		searchQuery += input.nextLine();
+//		
+//		Search s = new Search();
+//		s.search(Type.CUSTOMER, searchQuery);
+//		
+//		c.menu(true);
+//		
+//	}
 
 	
 	

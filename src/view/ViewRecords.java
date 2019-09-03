@@ -6,8 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import constants.Type;
+import interfaces.MainInterface;
 
-public class ViewRecords {
+public class ViewRecords implements MainInterface {
 	
 	public ViewRecords() {
 		
@@ -20,14 +21,14 @@ public class ViewRecords {
 		switch(recordType) {
 		
 		case CUSTOMER:
-			filePath = "src/TextFiles/Customers.txt";
-			System.out.println("\n* CUSTOMERS *\n-------------------------------\nNAME -- ADDRESS -- PHONE\n-------------------------------");
+			filePath = customersFilePath;
+			System.out.println("\n* CUSTOMERS *\n-------------------------------\nID-NAME-ADDRESS-PHONE\n-------------------------------");
 			break;
 		case ORDER:
-			filePath = "src/TextFiles/Orders.txt";
+			filePath = ordersFilePath;
 			break;
 		case PRODUCT:
-			filePath = "src/TextFiles/Products.txt";
+			filePath = productsFilePath;
 			break;
 		}//end of switch
 		
@@ -38,8 +39,12 @@ public class ViewRecords {
 			
 			while((oneLine = customerBufferedReader.readLine()) != null) {
 				
-				String[] arrOfUser = oneLine.split("-");
-				System.out.println(arrOfUser[1]+" -- "+arrOfUser[2]+" -- "+arrOfUser[3]+"\n-------------------------------");
+				//String[] arrOfUser = oneLine.split("-");
+//				for(int i=0;i<arrOfUser.length;i++) {
+//					System.out.println(arrOfUser[i]+" -- ");
+//				}
+				System.out.print(oneLine);
+				System.out.println("\n-------------------------------");
 					
 	        }//end of while
 			

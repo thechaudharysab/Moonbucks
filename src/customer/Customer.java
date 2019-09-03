@@ -3,8 +3,12 @@ import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import admin.Admin;
+import constants.Type;
 import interfaces.ClassInterface;
 import interfaces.MainInterface;
+import search.Search;
+import view.ViewRecords;
 
 public class Customer implements ClassInterface, MainInterface {
 	
@@ -17,6 +21,8 @@ public class Customer implements ClassInterface, MainInterface {
 	
 	private static Scanner input = new Scanner(System.in);
 	Writer output;
+	
+	private Boolean isUserAdmin;
 	
 	//Constructors
 	public Customer() {
@@ -93,31 +99,6 @@ public class Customer implements ClassInterface, MainInterface {
 	
 	//Methods
 	
-	public void writeNewUserToFile() {
-		
-		try {
-			output = new BufferedWriter(new FileWriter(customersFilePath, true));
-			output.write(customerID+"-"
-					+customerName+"-"
-					+customerAddress+"-"
-					+customerPhone+"\n");
-			
-			output.close();
-			
-			output = new BufferedWriter(new FileWriter(customersLoginFilePath, true));
-			output.write(customerID+"-"
-					+password+"\n");
-			
-			output.close();
-			
-			System.out.println("*Successfully Added New User*");
-			
-			
-		} catch(IOException ex) {
-			System.out.println("Error: " + ex.getMessage());
-		}
-	}
-	
 	public Boolean editCustomerProfile(String username, String fullName, String address, String phone, String password) {
 		
 //		System.out.print("\n* Editing Customer *\nUsername: "+username
@@ -158,10 +139,10 @@ public class Customer implements ClassInterface, MainInterface {
 	@Override
 	public void menu(Boolean isAdmin) {
 		
+		isUserAdmin = isAdmin;
 		String option = "-1";
 		
-		if(isAdmin == false) {
-			option = "0";
+		if(isUserAdmin == false) {
 			
 			while(MainInterface.isValidInput(option, 2) == false) {
 				
@@ -204,16 +185,17 @@ public class Customer implements ClassInterface, MainInterface {
 
 			switch(option) {
 				case "0":
-					System.out.println("0 is running");
+					Admin a = new Admin();
+					a.adminMainMenu();
 					break;
 				case "1":
-					System.out.println("1 is running");
+					add();
 					break;
 				case "2":
-					System.out.println("2 is running");
+					view();
 					break;
 				case "3":
-					System.out.println("3 is running");
+					search();
 					break;
 				default:
 					System.out.println("Default is running");
@@ -224,19 +206,86 @@ public class Customer implements ClassInterface, MainInterface {
 	
 	@Override
 	public void add() {
-		// TODO Auto-generated method stub
+		//To add a new Customer
 		
-	}
+		System.out.print("\n*Create New Customer*\n");
+		
+		System.out.println("Name: ");
+		customerName = input.next();
+		customerName += input.nextLine();
+		
+		System.out.println("Address: ");
+		customerAddress = input.next();
+		customerAddress += input.nextLine();
+		
+		System.out.println("Phone: ");
+		customerPhone = input.next();
+		customerPhone += input.nextLine();
+		
+		System.out.println("Username (Case-sensitive): ");
+		customerID = input.next();
+		customerID += input.nextLine();
+		
+		
+		while(MainInterface.isUsernameAvailable(customerID) == false) {
+		
+			System.out.println(customerID+" is already taken. Try another one! \nUsername: ");
+			customerID = input.next();
+			customerID += input.nextLine();
+		
+		}
+	
+		System.out.println("Create Password: ");
+		password = input.next();
+		password += input.nextLine();
+	
+		try {
+			output = new BufferedWriter(new FileWriter(customersFilePath, true));
+			output.write(customerID+"-"
+				+customerName+"-"
+				+customerAddress+"-"
+				+customerPhone+"\n");
+		
+			output.close();
+		
+			output = new BufferedWriter(new FileWriter(customersLoginFilePath, true));
+			output.write(customerID+"-"
+				+password+"\n");
+		
+			output.close();
+		
+			System.out.println("*Successfully Added New User*");
+			
+		} catch(IOException ex) {
+			System.out.println("Error: " + ex.getMessage());
+		}
+		
+		menu(true);
+		
+	}//end of add()
 
 	@Override
 	public void view() {
-		// TODO Auto-generated method stub
+		ViewRecords v = new ViewRecords();
+		v.viewRecord(Type.CUSTOMER);
+		menu(isUserAdmin);
 		
 	}
 
 	@Override
-	public void search() {
-		// TODO Auto-generated method stub
+	public void search() {  
+		String searchQuery = "";
+		
+		System.out.print("\n* Search Customers *\n---------------------------\n");
+		System.out.println("Enter Search Query: ");
+		
+		searchQuery = input.next();
+		searchQuery += input.nextLine();
+		
+		Search s = new Search();
+		s.search(Type.CUSTOMER, searchQuery);
+		
+		menu(isUserAdmin);
 		
 	}
 
@@ -299,5 +348,11 @@ private void myOrdersMenu() {
 				break;
 			}
 	}
+
+public void writeNewUserToFile() {
 	
+	
+}
+
+
 }

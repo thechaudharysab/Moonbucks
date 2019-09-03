@@ -1,15 +1,14 @@
 import java.io.*;
 import java.util.Scanner;
 import customer.Customer;
+import interfaces.MainInterface;
 import admin.Admin;
 
-public class Main {
+public class Main implements MainInterface {
 
+	
 	public static String username;
 	private static String password;
-	
-	private static String adminLoginFilePath = "src/TextFiles/AdminLogin.txt";
-	private static String customerLoginFilePath = "src/TextFiles/CustomerLogin.txt";
 	
 	private static Scanner input = new Scanner(System.in);
 	
@@ -30,13 +29,12 @@ public class Main {
 					
 					Customer c = new Customer(username);
 					System.out.print("Welcome "+c.getcustomerName()+"!");
-					
 					c.menu(false);
 					
 				} else {
 					
 					Admin a = new Admin();
-					//System.out.print("Welcome "+username+"!"); //Admin
+					System.out.print("Welcome Admin");
 					a.adminMainMenu();
 					
 				}
@@ -64,7 +62,7 @@ public class Main {
 			FileReader adminFileReader = new FileReader(adminLoginFilePath);
 			BufferedReader adminBufferedReader = new BufferedReader(adminFileReader);
 			
-			FileReader customerFileReader = new FileReader(customerLoginFilePath);
+			FileReader customerFileReader = new FileReader(customersLoginFilePath);
 			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
 			
 			//Check form AdminLogin Text File
