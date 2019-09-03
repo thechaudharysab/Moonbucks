@@ -1,16 +1,15 @@
 package admin;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import customer.Customer;
 
-public class Admin {
+import constants.Type;
+import customer.Customer;
+import interfaces.MainInterface;
+import search.Search;
+
+public class Admin implements MainInterface {
 	
 	private static Scanner input = new Scanner(System.in);
-	private static String customersLoginFilePath = "src/TextFiles/CustomerLogin.txt";
 	
 	public Admin() {
 		System.out.print("Welcome Admin");
@@ -18,43 +17,29 @@ public class Admin {
 	
 	public void adminMainMenu() {
 		
-		int option = 0;
+		String option = "-1";
 		
-		while(!(option == 2 || option == 1 || option == 3)) {
+		while(MainInterface.isValidInput(option, 3) == false) {
 			
-			try {
-				System.out.println("\n\n-- MENU --\n"
+				System.out.println("\n\n-- MAIN MENU --\n"
 						+ "Enter 1 for Customers\n"
 						+ "Enetr 2 for Products\n"
-						+ "Enter 3 for Orders\n\n"
+						+ "Enter 3 for Orders\n-----------\n"
+						+ "Enter 0 to exit\n\n"
 						+ "Enter your choice: ");
 				
-				option = input.nextInt();
+				option = input.next();
 				
-				if(option > 2 || option < 1) {
-					System.out.println("Invalid menu number entered. A valid menu option is required.");
-				}
-				
-			} catch (InputMismatchException ex) {
-				System.out.println("Invalid menu number entered. A valid menu option is required.");
-				if(input.hasNextInt()) {
-					option = input.nextInt();
-				} else {
-					input.next();
-					continue;
-				}
-				 //The error occurs here
-			}
-		}
+		}//end of while
 
 		switch(option) {
-			case 1:
+			case "1":
 				customersMenu();
 				break;
-			case 2:
+			case "2":
 				productsMenu();
 				break;
-			case 3:
+			case "3":
 				ordersMenu();
 				break;
 			default:
@@ -64,55 +49,8 @@ public class Admin {
 	}
 	
 	private void customersMenu() {
-		
-		int option = 4;
-		
-		while(!(option == 2 || option == 1 || option == 3 || option == 0)) {
-			
-			try {
-				System.out.println("\n\n-- MENU --\n"
-						+ "Enter 1 to Add New Customer\n"
-						+ "Enetr 2 to View All Customers\n"
-						+ "Enter 3 to Search Customers Profile\n"
-						+ "----\n"
-						+ "Enter 0 to go back to main menu\n\n"
-						+ "Enter your choice: ");
-				
-				option = input.nextInt();
-				
-				if(option > 3 || option < 0) {
-					System.out.println("Invalid menu number entered. A valid menu option is required.");
-				}
-				
-			} catch (InputMismatchException ex) {
-				System.out.println("Invalid menu number entered. A valid menu option is required.");
-				if(input.hasNextInt()) {
-					option = input.nextInt();
-				} else {
-					input.next();
-					continue;
-				}
-				 //The error occurs here
-			}
-		}
-
-		switch(option) {
-			case 0:
-			adminMainMenu();
-			break;
-			case 1:
-				createNewUser();
-				break;
-			case 2:
-				System.out.println("You have entered: "+ option);
-				break;
-			case 3:
-				System.out.println("You have entered: "+ option);
-				break;
-			default:
-				System.out.println("Default is running");
-				break;
-			}
+		Customer c = new Customer();
+		c.menu(true);
 	}
 	private void productsMenu() {
 		
@@ -121,7 +59,7 @@ public class Admin {
 		while(!(option == 2 || option == 1 || option == 3 || option == 0)) {
 			
 			try {
-				System.out.println("\n\n-- MENU --\n"
+				System.out.println("\n\n-- PRODUCTS MENU --\n"
 						+ "Enter 1 to Add New Product\n"
 						+ "Enetr 2 to View All Products\n"
 						+ "Enter 3 to Search Products\n"
@@ -131,7 +69,7 @@ public class Admin {
 				
 				option = input.nextInt();
 				
-				if(option > 2 || option < 1) {
+				if(option > 4 || option < 0) {
 					System.out.println("Invalid menu number entered. A valid menu option is required.");
 				}
 				
@@ -181,7 +119,7 @@ public class Admin {
 				
 				option = input.nextInt();
 				
-				if(option > 2 || option < 1) {
+				if(option > 4 || option < 0) {
 					System.out.println("Invalid menu number entered. A valid menu option is required.");
 				}
 				
@@ -219,83 +157,75 @@ public class Admin {
 	
 	//Customer Methods
 	
-	private void createNewUser() {
-		
-		String customerID = "";
-		String customerName = "";
-		String customerAddress = "";
-		String customerPhone = "";
-		String password = "";
-		
-		System.out.print("\n*Create New User*\n");
-		
-		System.out.println("Name: ");
-		customerName = input.next();
-		customerName += input.nextLine();
-		
-		System.out.println("Address: ");
-		customerAddress = input.next();
-		customerAddress += input.nextLine();
-		
-		System.out.println("Phone: ");
-		customerPhone = input.next();
-		customerPhone += input.nextLine();
-		
-		System.out.println("Username: ");
-		customerID = input.next();
-		customerID += input.nextLine();
-		
-		while(isUsernameAvailable(customerID) == false) {
-			
-			System.out.println(customerID+" is already taken. \nUsername: ");
-			customerID = input.next();
-			customerID += input.nextLine();
-			
-		}
-		System.out.println("Create Password: ");
-		password = input.next();
-		password += input.nextLine();
-		
-		Customer c = new Customer(customerID, customerName, customerAddress, customerPhone, password);
-		c.writeNewUserToFile();
-		
-		adminMainMenu();
-		
-		
-	}
+//	private void createNewUser() {
+//		
+//		String customerID = "";
+//		String customerName = "";
+//		String customerAddress = "";
+//		String customerPhone = "";
+//		String password = "";
+//		
+//		System.out.print("\n*Create New Customer*\n");
+//		
+//		System.out.println("Name: ");
+//		customerName = input.next();
+//		customerName += input.nextLine();
+//		
+//		System.out.println("Address: ");
+//		customerAddress = input.next();
+//		customerAddress += input.nextLine();
+//		
+//		System.out.println("Phone: ");
+//		customerPhone = input.next();
+//		customerPhone += input.nextLine();
+//		
+//		System.out.println("Username (Case-sensitive): ");
+//		customerID = input.next();
+//		customerID += input.nextLine();
+//		
+////		while(MainClassInterface.isUsernameAvailable(customerID) == false) {
+////			
+////			System.out.println(customerID+" is already taken. Try another one! \nUsername: ");
+////			customerID = input.next();
+////			customerID += input.nextLine();
+////			
+////		}
+//		System.out.println("Create Password: ");
+//		password = input.next();
+//		password += input.nextLine();
+//		
+//		Customer c = new Customer(customerID, customerName, customerAddress, customerPhone, password);
+//		c.writeNewUserToFile();
+//		
+//		adminMainMenu();
+//		
+//		
+//	}
+//	
+//	private void viewAllCustomers() {
+//		
+//		ViewRecords v = new ViewRecords();
+//		v.viewRecord(Type.CUSTOMER);
+//		customersMenu();
+//	}
 	
-	private Boolean isUsernameAvailable(String username) {
+	private void searchCustomer() {
 		
-		String oneLine = null;
-		Boolean doesExist = true;
+		String searchQuery = "";
 		
-		try {
-			
-			FileReader customerFileReader = new FileReader(customersLoginFilePath);
-			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
-			
-			while((oneLine = customerBufferedReader.readLine()) != null) {
-				
-				String[] arrOfAdmin = oneLine.split("-");
-				
-				if(arrOfAdmin[0].equals(username)) {
-						doesExist = false;
-					}
-            }//end of while
-			
-			customerBufferedReader.close();
-			
-		}catch(FileNotFoundException ex) {
-			System.out.println("*Unable to open file '" + customersLoginFilePath + "' " + ex.getMessage()+"*");
-		}//end of FileNotFoundException
-		catch(IOException ex) {
-            System.out.println("Error reading file '" + customersLoginFilePath + "' " + ex.getMessage()+"*");
-        }//end of IOException
-		catch(NullPointerException ex) {
-			System.out.println("Error: "+ ex.getMessage()+"*");
-		}//end of NullPointerException
+		System.out.print("\n* Search Customers *\n---------------------------\n");
+		System.out.println("Enter Search Query: ");
 		
-		return doesExist;
+		searchQuery = input.next();
+		searchQuery += input.nextLine();
+		
+		Search s = new Search();
+		s.search(Type.CUSTOMER, searchQuery);
+		
+		customersMenu();
+		
 	}
 
+	
+	
 }

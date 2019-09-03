@@ -31,7 +31,7 @@ public class Main {
 					Customer c = new Customer(username);
 					System.out.print("Welcome "+c.getcustomerName()+"!");
 					
-					c.showMainMenu();
+					c.menu(false);
 					
 				} else {
 					
@@ -115,5 +115,6 @@ public class Main {
 			isCustomerLoginSuccessful = false;
 		}//end of NullPointerException
 	}//end of checkUserLogin
+	
 	
 }//end of class
