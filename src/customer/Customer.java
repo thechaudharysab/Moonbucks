@@ -1,10 +1,12 @@
 package customer;
 import java.io.*;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import admin.Admin;
 import constants.Type;
+import delete.Delete;
 import interfaces.ClassInterface;
 import interfaces.MainInterface;
 import search.Search;
@@ -290,14 +292,43 @@ public class Customer implements ClassInterface, MainInterface {
 	}
 
 	@Override
-	public void edit() {
+	public void edit(List<String> recordsToEdit) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
+	public void delete(List<String> recordsToDelete) {
+		
+		try {
+			FileReader customerFileReader = new FileReader(customersLoginFilePath);
+			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+			String oneLine = null;
+			
+			for(int i=0;i<recordsToDelete.size();i++) {
+				while((oneLine = customerBufferedReader.readLine()) != null) {
+					
+					String[] arrOfUser = oneLine.split("-");
+					String[] arrOfFoundRecords = recordsToDelete.get(i).split("-");
+					
+					if(arrOfUser[0].equals(arrOfFoundRecords[0])) {
+						Delete.deleteRecord(oneLine,customersLoginFilePath);
+						}
+	            }//end of while
+				
+				customerBufferedReader.close();
+			} //end of for-loop of customers login
+			
+			
+			//Delete customers records
+			for(int i=0;i<recordsToDelete.size();i++) {
+				Delete.deleteRecord(recordsToDelete.get(i),customersFilePath);
+				System.out.println("Deleted "+(i+1)+" of total "+recordsToDelete.size()+" records");
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 
@@ -348,11 +379,6 @@ private void myOrdersMenu() {
 				break;
 			}
 	}
-
-public void writeNewUserToFile() {
-	
-	
-}
 
 
 }
