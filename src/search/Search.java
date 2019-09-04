@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.Customers.Customer;
+import com.Products.Product;
 
 import constants.Type;
 import interfaces.MainInterface;
@@ -20,6 +21,7 @@ public class Search implements MainInterface {
 	private static Scanner input = new Scanner(System.in);
 	
 	Customer c = new Customer();
+	Product p = new Product();
 	
 	public Search() {
 		
@@ -90,8 +92,19 @@ public class Search implements MainInterface {
 				break;
 			case "1":
 				//EDIT
-				c.edit(foundRecords);
-				break;
+				switch(searchType) {
+				case CUSTOMER:
+					c.edit(foundRecords);
+					break;
+				case ORDER:
+					System.out.println("Coming Soon");
+					break;
+				case PRODUCT:
+					p.edit(foundRecords);
+					break;
+				}//end of switch searchType
+			break; //end of case 1
+			
 			case "2":
 				//DELETE
 				switch(searchType) {
@@ -100,19 +113,14 @@ public class Search implements MainInterface {
 					c.delete(foundRecords);
 					break;
 				case ORDER:
-//					for(int i=0;i<foundRecords.size();i++) {
-//						Delete.deleteRecord(foundRecords.get(i),ordersFilePath);
-//						System.out.println("Deleted "+i+++" of total "+foundRecords.size()+" records");
-//					}
+					System.out.println("Coming Soon");
 					break;
 				case PRODUCT:
-//					for(int i=0;i<foundRecords.size();i++) {
-//						Delete.deleteRecord(foundRecords.get(i),productsFilePath);
-//						System.out.println("Deleted "+i+++" of total "+foundRecords.size()+" records");
-//					}
+					p.delete(foundRecords);
 					break;
 				}//end of switch searchType
 				break;
+				
 			default:
 				System.out.println("Default is running");
 				break;

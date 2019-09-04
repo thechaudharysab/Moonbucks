@@ -1,6 +1,8 @@
 package com.Products;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.List;
@@ -8,8 +10,11 @@ import java.util.Scanner;
 
 import admin.Admin;
 import constants.Type;
+import edit.Edit;
 import interfaces.ClassInterface;
 import interfaces.MainInterface;
+import search.Search;
+import view.ViewRecords;
 
 public class Product implements ClassInterface, MainInterface {
 	
@@ -114,19 +119,91 @@ public class Product implements ClassInterface, MainInterface {
 
 	@Override
 	public void view() {
-		// TODO Auto-generated method stub
-		
+		ViewRecords v = new ViewRecords();
+		v.viewRecord(Type.PRODUCT);
+		menu(true);
 	}
 
 	@Override
 	public void search() {
-		// TODO Auto-generated method stub
+		String searchQuery = "";
+		
+		System.out.print("\n* Search Products *\n---------------------------\n");
+		System.out.println("Enter Search Query: ");
+		
+		input.next();
+		searchQuery += input.nextLine();
+		Search s = new Search();
+		s.search(Type.PRODUCT, searchQuery);
+		
+		menu(true);
 		
 	}
 
 	@Override
 	public void edit(List<String> recordsToEdit) {
-		// TODO Auto-generated method stub
+		
+		//input.nextLine();
+		
+		try {
+			
+			for(int i=0;i<recordsToEdit.size();i++) {
+				
+				FileReader productFileReader = new FileReader(productsFilePath);
+				BufferedReader productBufferedReader = new BufferedReader(productFileReader);
+				String oneLine = null;
+				
+				while((oneLine = productBufferedReader.readLine()) != null) {
+					
+					String[] arrOfProduct = oneLine.split("-");
+					String[] arrOfFoundRecords = recordsToEdit.get(i).split("-");
+					
+					if(arrOfProduct[0].equals(arrOfFoundRecords[0])) {
+					System.out.println("------\n*Editing Record*\n------");
+					System.out.println("------------------------------------\n");
+					System.out.println(arrOfFoundRecords[1]+" -- "+arrOfFoundRecords[2]+" -- "+arrOfFoundRecords[3]+"\n");
+					System.out.println("------------------------------------\n");
+					
+					System.out.println("Product Name ("+arrOfFoundRecords[1]+"): ");
+					productName = input.nextLine();
+					
+					if(!(productName.toLowerCase().equals(arrOfFoundRecords[1].toLowerCase()))) {
+						if(MainInterface.nameAlreadyExist(Type.PRODUCT, productName) == true) {
+							do {
+								System.out.println("Product Name: ");
+								productName = input.nextLine();
+								
+							} while(MainInterface.nameAlreadyExist(Type.PRODUCT, productName) == true);
+						}
+					}
+					
+					do {
+						System.out.println("Price (RM "+arrOfFoundRecords[2]+"): RM ");
+						//input.nextLine();
+						productRate = input.nextLine();
+						
+					} while(MainInterface.isValidFloatInput(productRate) == false);
+					
+					do {
+						System.out.println("Is this product fragile? ("+arrOfFoundRecords[3]+") (y/n): ");
+						isFragile = input.nextLine();
+					} while(isFragile == "y" || isFragile == "n");
+					
+					String updatedString = arrOfProduct[0]+"-"+productName+"-"+productRate+"-"+isFragile;
+					
+					Edit.editRecords(oneLine, updatedString, productsFilePath);
+					System.out.println("\nUpdated "+(i+1)+" of total "+recordsToEdit.size()+" records\n");
+					
+					}//end of if
+				}//eo while
+				
+				productBufferedReader.close();
+				
+			}//eo for loop
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 

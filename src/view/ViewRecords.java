@@ -29,6 +29,7 @@ public class ViewRecords implements MainInterface {
 			break;
 		case PRODUCT:
 			filePath = productsFilePath;
+			System.out.println("\n* PRODUCTS *\n-------------------------------\nID-NAME-PRICE-IS FRAGILE\n-------------------------------");
 			break;
 		}//end of switch
 		
