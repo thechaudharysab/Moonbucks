@@ -1,10 +1,10 @@
 import java.io.*;
 import java.util.Scanner;
 
+import com.Admin.Admin;
 import com.Customers.Customer;
 
 import interfaces.MainInterface;
-import admin.Admin;
 
 public class Main implements MainInterface {
 

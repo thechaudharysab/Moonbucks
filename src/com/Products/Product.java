@@ -8,7 +8,8 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Scanner;
 
-import admin.Admin;
+import com.Admin.Admin;
+
 import constants.Type;
 import delete.Delete;
 import edit.Edit;
