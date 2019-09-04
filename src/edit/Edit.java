@@ -30,7 +30,7 @@ public class Edit {
                     fileContent.append("\n");
                 }
 			}
-			br.close();
+			
 			
 			FileWriter fstreamWrite = new FileWriter(filePath);
             BufferedWriter out = new BufferedWriter(fstreamWrite);
@@ -38,7 +38,8 @@ public class Edit {
             out.close();
             //Close the input stream
 			
-			
+            br.close();
+            
 		} catch (Exception e) {
 			System.out.println("Problem reading file. "+ e);
 		}

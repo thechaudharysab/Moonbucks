@@ -289,11 +289,13 @@ public class Customer implements ClassInterface, MainInterface {
 		// TODO Auto-generated method stub
 		
 		try {
-		FileReader customerFileReader = new FileReader(customersFilePath);
-		BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
-		String oneLine = null;
 		
 		for(int i=0;i<recordsToEdit.size();i++) {
+			
+			FileReader customerFileReader = new FileReader(customersFilePath);
+			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+			String oneLine = null;
+			
 			while((oneLine = customerBufferedReader.readLine()) != null) {
 				
 				String[] arrOfUser = oneLine.split("-");
@@ -320,12 +322,14 @@ public class Customer implements ClassInterface, MainInterface {
 					String updatedString = arrOfUser[0]+"-"+customerName+"-"+customerAddress+"-"+customerPhone;
 					
 					Edit.editRecords(oneLine, updatedString, customersFilePath);
-					System.out.println("Updated "+(i+1)+" of total "+recordsToEdit.size()+" records");
+					System.out.println("\nUpdated "+(i+1)+" of total "+recordsToEdit.size()+" records\n");
 					}
             }//end of while
 			
 			customerBufferedReader.close();
+			
 		}//end of for-loop
+		
 		} catch(Exception e) {
 			e.printStackTrace();
 		} 
@@ -336,30 +340,28 @@ public class Customer implements ClassInterface, MainInterface {
 	public void delete(List<String> recordsToDelete) {
 		
 		try {
-			FileReader customerFileReader = new FileReader(customersLoginFilePath);
-			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
-			String oneLine = null;
-			
+
 			for(int i=0;i<recordsToDelete.size();i++) {
+				
+				FileReader customerFileReader = new FileReader(customersLoginFilePath);
+				BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+				String oneLine = null;
+				
+				String[] arrOfFoundRecords = recordsToDelete.get(i).split("-");
+				
 				while((oneLine = customerBufferedReader.readLine()) != null) {
-					
 					String[] arrOfUser = oneLine.split("-");
-					String[] arrOfFoundRecords = recordsToDelete.get(i).split("-");
-					
 					if(arrOfUser[0].equals(arrOfFoundRecords[0])) {
 						Delete.deleteRecord(oneLine,customersLoginFilePath);
 						}
 	            }//end of while
 				
+				//Delete customers records
+				Delete.deleteRecord(recordsToDelete.get(i),customersFilePath);
+				System.out.println("\nDeleted "+(i+1)+" of total "+recordsToDelete.size()+" records\n");
 				customerBufferedReader.close();
 			} //end of for-loop of customers login
 			
-			
-			//Delete customers records
-			for(int i=0;i<recordsToDelete.size();i++) {
-				Delete.deleteRecord(recordsToDelete.get(i),customersFilePath);
-				System.out.println("Deleted "+(i+1)+" of total "+recordsToDelete.size()+" records");
-			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
