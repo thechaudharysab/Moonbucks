@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 import constants.Type;
 import customer.Customer;
-import delete.Delete;
 import interfaces.MainInterface;
 
 public class Search implements MainInterface {
@@ -19,6 +18,8 @@ public class Search implements MainInterface {
 	List<String> foundRecords;
 	String searchQuery = "";
 	private static Scanner input = new Scanner(System.in);
+	
+	Customer c = new Customer();
 	
 	public Search() {
 		
@@ -96,55 +97,26 @@ public class Search implements MainInterface {
 				break;
 			case "1":
 				//EDIT
-				System.out.println("1 is running");
+				c.edit(foundRecords);
 				break;
 			case "2":
 				//DELETE
 				switch(searchType) {
 				
 				case CUSTOMER:
-					
-					Customer c = new Customer();
 					c.delete(foundRecords);
-					
-//					//Delete customers login records
-//					FileReader customerFileReader = new FileReader(customersLoginFilePath);
-//					BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
-//					String oneLine = null;
-//					
-//					for(int i=0;i<foundRecords.size();i++) {
-//						while((oneLine = customerBufferedReader.readLine()) != null) {
-//							
-//							String[] arrOfUser = oneLine.split("-");
-//							String[] arrOfFoundRecords = foundRecords.get(i).split("-");
-//							
-//							if(arrOfUser[0].equals(arrOfFoundRecords[0])) {
-//								Delete.deleteRecord(oneLine,customersLoginFilePath);
-//								}
-//			            }//end of while
-//						
-//						customerBufferedReader.close();
-//					} //end of for-loop of customers login
-//					
-//					
-//					//Delete customers records
-//					for(int i=0;i<foundRecords.size();i++) {
-//						Delete.deleteRecord(foundRecords.get(i),customersFilePath);
-//						System.out.println("Deleted "+(i+1)+" of total "+foundRecords.size()+" records");
-//					}
-					
 					break;
 				case ORDER:
-					for(int i=0;i<foundRecords.size();i++) {
-						Delete.deleteRecord(foundRecords.get(i),ordersFilePath);
-						System.out.println("Deleted "+i+++" of total "+foundRecords.size()+" records");
-					}
+//					for(int i=0;i<foundRecords.size();i++) {
+//						Delete.deleteRecord(foundRecords.get(i),ordersFilePath);
+//						System.out.println("Deleted "+i+++" of total "+foundRecords.size()+" records");
+//					}
 					break;
 				case PRODUCT:
-					for(int i=0;i<foundRecords.size();i++) {
-						Delete.deleteRecord(foundRecords.get(i),productsFilePath);
-						System.out.println("Deleted "+i+++" of total "+foundRecords.size()+" records");
-					}
+//					for(int i=0;i<foundRecords.size();i++) {
+//						Delete.deleteRecord(foundRecords.get(i),productsFilePath);
+//						System.out.println("Deleted "+i+++" of total "+foundRecords.size()+" records");
+//					}
 					break;
 				}//end of switch searchType
 				break;

@@ -7,6 +7,7 @@ import java.util.Scanner;
 import admin.Admin;
 import constants.Type;
 import delete.Delete;
+import edit.Edit;
 import interfaces.ClassInterface;
 import interfaces.MainInterface;
 import search.Search;
@@ -46,22 +47,22 @@ public class Customer implements ClassInterface, MainInterface {
 	}
 	
 	//Getter
-	public String getCustomerID() {
-		return customerID;
-	}
-	
+//	public String getCustomerID() {
+//		return customerID;
+//	}
+//	
 	public String getcustomerName() {
 		return customerName;
 	}
-	
-	public String getcustomerAddress() {
-		return customerAddress;
-	}
-	
-	public String getcustomerPhone() {
-		return customerPhone;
-	}
-	
+//	
+//	public String getcustomerAddress() {
+//		return customerAddress;
+//	}
+//	
+//	public String getcustomerPhone() {
+//		return customerPhone;
+//	}
+//	
 	//Setter
 	private void readAndSetCustomerValues(String username) {
 		
@@ -85,19 +86,11 @@ public class Customer implements ClassInterface, MainInterface {
 			
 			customerBufferedReader.close();
 			
-		} catch(FileNotFoundException ex) {
-			System.out.println("*Unable to open file '" + customersFilePath + "' " + ex.getMessage()+"*");
-		}//end of FileNotFoundException
-		catch(IOException ex) {
-            System.out.println("Error reading file '" + customersFilePath + "' " + ex.getMessage()+"*");
-        }//end of IOException
-		catch(NullPointerException ex) {
-			System.out.println("Error: "+ ex.getMessage()+"*");
-		}//end of NullPointerException
-		
+		} catch(Exception e) {
+			System.out.println("*Unable to open file '" + customersFilePath + "' " + e.getMessage()+"*");
+		}
 		
 	}
-	
 	
 	//Methods
 	
@@ -258,7 +251,7 @@ public class Customer implements ClassInterface, MainInterface {
 		
 			System.out.println("*Successfully Added New User*");
 			
-		} catch(IOException ex) {
+		} catch(Exception ex) {
 			System.out.println("Error: " + ex.getMessage());
 		}
 		
@@ -294,6 +287,48 @@ public class Customer implements ClassInterface, MainInterface {
 	@Override
 	public void edit(List<String> recordsToEdit) {
 		// TODO Auto-generated method stub
+		
+		try {
+		FileReader customerFileReader = new FileReader(customersFilePath);
+		BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+		String oneLine = null;
+		
+		for(int i=0;i<recordsToEdit.size();i++) {
+			while((oneLine = customerBufferedReader.readLine()) != null) {
+				
+				String[] arrOfUser = oneLine.split("-");
+				String[] arrOfFoundRecords = recordsToEdit.get(i).split("-");
+				
+				if(arrOfUser[0].equals(arrOfFoundRecords[0])) {
+					
+					System.out.println("------\n*Editing Record*\n------");
+					System.out.println(arrOfFoundRecords[1]+" -- "+arrOfFoundRecords[2]+" -- "+arrOfFoundRecords[3]+"\n");
+					System.out.println("------------------------------------\n");
+					
+					System.out.println("Name ("+arrOfFoundRecords[1]+"): ");
+					customerName = input.next();
+					customerName += input.nextLine();
+					
+					System.out.println("Address ("+arrOfFoundRecords[2]+"): ");
+					customerAddress = input.next();
+					customerAddress += input.nextLine();
+					
+					System.out.println("Phone ("+arrOfFoundRecords[3]+"): ");
+					customerPhone = input.next();
+					customerPhone += input.nextLine();
+					
+					String updatedString = arrOfUser[0]+"-"+customerName+"-"+customerAddress+"-"+customerPhone;
+					
+					Edit.editRecords(oneLine, updatedString, customersFilePath);
+					System.out.println("Updated "+(i+1)+" of total "+recordsToEdit.size()+" records");
+					}
+            }//end of while
+			
+			customerBufferedReader.close();
+		}//end of for-loop
+		} catch(Exception e) {
+			e.printStackTrace();
+		} 
 		
 	}
 
