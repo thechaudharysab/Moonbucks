@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import admin.Admin;
 import constants.Type;
+import delete.Delete;
 import edit.Edit;
 import interfaces.ClassInterface;
 import interfaces.MainInterface;
@@ -130,10 +131,11 @@ public class Product implements ClassInterface, MainInterface {
 		
 		System.out.print("\n* Search Products *\n---------------------------\n");
 		System.out.println("Enter Search Query: ");
-		
-		input.next();
+		searchQuery = input.next();
 		searchQuery += input.nextLine();
 		Search s = new Search();
+		
+		System.out.println("Search Query 1: "+searchQuery.toLowerCase()+"------ \n");
 		s.search(Type.PRODUCT, searchQuery);
 		
 		menu(true);
@@ -209,7 +211,23 @@ public class Product implements ClassInterface, MainInterface {
 
 	@Override
 	public void delete(List<String> recordsToDelete) {
-		// TODO Auto-generated method stub
+		
+		try {
+			
+			for(int i=0;i<recordsToDelete.size();i++) {
+				
+				FileReader productFileReader = new FileReader(productsFilePath);
+				BufferedReader productBufferedReader = new BufferedReader(productFileReader);
+				
+				Delete.deleteRecord(recordsToDelete.get(i), productsFilePath);
+				System.out.println("\nDeleted "+(i+1)+" of total "+recordsToDelete.size()+" records\n");
+				productBufferedReader.close();
+			}//eo For
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 

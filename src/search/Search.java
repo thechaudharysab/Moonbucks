@@ -29,7 +29,7 @@ public class Search implements MainInterface {
 	
 	public void search(Type searchType, String searchQuery) {
 		
-		String searchQueryLowerCase = searchQuery.toLowerCase();
+		//String searchQueryLowerCase = searchQuery.toLowerCase();
 		String filePath = "";
 		foundRecords = new ArrayList<String>();
 		
@@ -48,13 +48,13 @@ public class Search implements MainInterface {
 		
 		try {
 			
-			FileReader customerFileReader = new FileReader(filePath);
-			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+			FileReader fileReader = new FileReader(filePath);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String oneLine = null;
 			
-			while((oneLine = customerBufferedReader.readLine()) != null) {
-				
-				if(oneLine.toLowerCase().contains(searchQueryLowerCase)) {
+			while((oneLine = bufferedReader.readLine()) != null) {
+				System.out.println("Search Query: "+searchQuery.toLowerCase()+"------ \n");
+				if(oneLine.toLowerCase().contains(searchQuery.toLowerCase())) {
 					System.out.print(oneLine+"\n---------------------------\n");
 					foundRecords.add(oneLine);
 				}
@@ -62,7 +62,7 @@ public class Search implements MainInterface {
 			}//end of while
 			
 			System.out.println("\nSearch finished. "+foundRecords.size()+" record(s) found");
-			customerBufferedReader.close();
+			bufferedReader.close();
 			
 			if(foundRecords.size() > 0) {
 				searchMenu(searchType);
