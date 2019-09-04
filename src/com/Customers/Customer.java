@@ -1,4 +1,4 @@
-package customer;
+package com.Customers;
 import java.io.*;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -19,8 +19,9 @@ public class Customer implements ClassInterface, MainInterface {
 	private String customerName;
 	private String customerAddress;
 	private String customerPhone;
-	
 	protected String password;
+	
+	
 	
 	private static Scanner input = new Scanner(System.in);
 	Writer output;
@@ -93,44 +94,7 @@ public class Customer implements ClassInterface, MainInterface {
 	}
 	
 	//Methods
-	
-	public Boolean editCustomerProfile(String username, String fullName, String address, String phone, String password) {
-		
-//		System.out.print("\n* Editing Customer *\nUsername: "+username
-//							+"-- Name: "+fullName+"-- Address: "
-//							+address+"-- Phone: "+phone+"\n");
-//		
-//		System.out.println("Name: ");
-//		customerName = input.next();
-//		customerName += input.nextLine();
-//		
-//		System.out.println("Address: ");
-//		customerAddress = input.next();
-//		customerAddress += input.nextLine();
-//		
-//		System.out.println("Phone: ");
-//		customerPhone = input.next();
-//		customerPhone += input.nextLine();
-//		
-//		System.out.println("Username (Case-sensitive): ");
-//		customerID = input.next();
-//		customerID += input.nextLine();
-//		
-//		while(MainClassInterface.isUsernameAvailable(customerID) == false) {
-//			
-//			System.out.println(customerID+" is already taken. Try another one! \nUsername: ");
-//			customerID = input.next();
-//			customerID += input.nextLine();
-//			
-//		}
-//		System.out.println("Create Password: ");
-//		password = input.next();
-//		password += input.nextLine();
-		
-		return true;
-	}
 
-	
 	@Override
 	public void menu(Boolean isAdmin) {
 		
@@ -139,7 +103,7 @@ public class Customer implements ClassInterface, MainInterface {
 		
 		if(isUserAdmin == false) {
 			
-			while(MainInterface.isValidInput(option, 2) == false) {
+			while(MainInterface.isValidIntInput(option, 2) == false) {
 				
 					System.out.println("\n\n-- MAIN MENU --\n"
 							+ "Enter 1 to Place a new order\n"
@@ -151,6 +115,9 @@ public class Customer implements ClassInterface, MainInterface {
 			} //end of while
 
 			switch(option) {
+				case "0":
+					System.exit(0);
+					break;
 				case "1":
 					System.out.println("You have entered: "+option);
 					break;
@@ -158,13 +125,13 @@ public class Customer implements ClassInterface, MainInterface {
 					myOrdersMenu();
 					break;
 				default:
-					System.out.println("Default is running");
+					System.out.println("Something is wrong! We are not sure but try again.");
 					break;
 				}
 		}//end of if isAdmin = false
 		else {
 			
-			while(MainInterface.isValidInput(option, 3) == false) {
+			while(MainInterface.isValidIntInput(option, 3) == false) {
 				
 					System.out.println("\n\n-- CUSTOMERS MENU --\n"
 							+ "Enter 1 to Add New Customer\n"
@@ -193,7 +160,7 @@ public class Customer implements ClassInterface, MainInterface {
 					search();
 					break;
 				default:
-					System.out.println("Default is running");
+					System.out.println("Something is wrong! We are not sure but try again.");
 					break;
 				}
 		}
@@ -336,6 +303,7 @@ public class Customer implements ClassInterface, MainInterface {
 		
 	}
 
+	
 	@Override
 	public void delete(List<String> recordsToDelete) {
 		
@@ -370,7 +338,7 @@ public class Customer implements ClassInterface, MainInterface {
 	}
 
 	
-private void myOrdersMenu() {
+	private void myOrdersMenu() {
 		
 		int option = 3;
 		

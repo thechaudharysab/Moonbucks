@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.Customers.Customer;
+
 import constants.Type;
-import customer.Customer;
 import interfaces.MainInterface;
 
 public class Search implements MainInterface {
 	
-	//private int totalRecordsFound = 0;
 	List<String> foundRecords;
 	String searchQuery = "";
 	private static Scanner input = new Scanner(System.in);
@@ -53,7 +53,6 @@ public class Search implements MainInterface {
 			while((oneLine = customerBufferedReader.readLine()) != null) {
 				
 				if(oneLine.toLowerCase().contains(searchQueryLowerCase)) {
-//					totalRecordsFound+=1;
 					System.out.print(oneLine+"\n---------------------------\n");
 					foundRecords.add(oneLine);
 				}
@@ -67,15 +66,9 @@ public class Search implements MainInterface {
 				searchMenu(searchType);
 			}
 			
-		} catch(FileNotFoundException ex) {
-			System.out.println("*Unable to open file '" + filePath + "' " + ex.getMessage()+"*");
-		}//end of FileNotFoundException
-		catch(IOException ex) {
-            System.out.println("*Error reading file '" + filePath + "' " + ex.getMessage()+"*");
-        }//end of IOException
-		catch(NullPointerException ex) {
-			System.out.println("*Error: "+ ex.getMessage()+"*");
-		}//end of NullPointerException
+		} catch(Exception e) {
+			System.out.println("*Unable to open file '" + filePath + "' " + e.getMessage()+"*");
+		}
 	}
 	
 	private void searchMenu(Type searchType) throws FileNotFoundException, IOException {
@@ -90,7 +83,7 @@ public class Search implements MainInterface {
 			}
 			
 			option = input.next();
-		} while(MainInterface.isValidInput(option, 2) == false); 
+		} while(MainInterface.isValidIntInput(option, 2) == false); 
 		
 		switch(option) {
 			case "0":

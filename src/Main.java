@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.Scanner;
-import customer.Customer;
+
+import com.Customers.Customer;
+
 import interfaces.MainInterface;
 import admin.Admin;
 

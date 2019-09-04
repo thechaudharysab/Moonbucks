@@ -1,9 +1,10 @@
 package interfaces;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
+import constants.Type;
 
 public interface MainInterface {
 	
@@ -12,11 +13,10 @@ public interface MainInterface {
 	public static String customersFilePath = "src/TextFiles/Customers.txt";
 	public static String ordersFilePath = "src/TextFiles/Orders.txt";
 	public static String productsFilePath = "src/TextFiles/Products.txt";
-	public static String tempFilePath = "src/TextFiles/Temp.txt";
 	
 	// Methods
 	
-	public static Boolean isValidInput(String enteredVal, int limit) {
+	public static Boolean isValidIntInput(String enteredVal, int limit) {
 		
 		try{
 			int numericEnteredValue = Integer.parseInt(enteredVal);
@@ -24,16 +24,110 @@ public interface MainInterface {
 			//System.out.println(numericEnteredValue+" > "+limit+" < 0\n");
 			
 			if(numericEnteredValue > limit && numericEnteredValue < 0) {
-				System.out.println("Invalid menu number entered. A valid menu option is required 1.");
+				System.out.println("Invalid menu number entered. A valid menu option is required.");
 				return false;
 			} else if (numericEnteredValue == -1) {
 				return false;
 			}else return true;
 			
         } catch(Exception exception) {
-        	System.out.println("Invalid menu number entered. A valid menu option is required 2.");
+        	System.out.println("Invalid menu number entered. A valid menu option is required.");
         	return false;
         }
+	}
+	
+	public static Boolean isValidFloatInput(String enteredVal) {
+		
+		float convertedFloat = Float.parseFloat(enteredVal);
+		
+		try{			
+			if(convertedFloat < 0.0) {
+				System.out.println("Invalid price entered. A valid price is required like 4.65");
+				return false;
+			} else return true;
+			
+        } catch(Exception exception) {
+        	System.out.println("Invalid price entered. A valid price is required like 3.36.");
+        	return false;
+        }
+	}
+	
+	public static Boolean nameAlreadyExist(Type type, String phrase) throws IOException {
+		
+		String filePath = null;
+		Boolean doesExist = false;
+		String oneLine = null;
+		
+		switch(type) {
+		
+		case CUSTOMER:
+			filePath = customersFilePath;
+			break;
+		case ORDER:
+			filePath = ordersFilePath;
+			break;
+		case PRODUCT:
+			filePath = productsFilePath;
+			break;
+		}//end of switch
+		
+		try {
+			FileReader customerFileReader = new FileReader(filePath);
+			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+			
+			while((oneLine = customerBufferedReader.readLine()) != null) {
+				
+				String[] arrOfAdmin = oneLine.split("-");
+				if(arrOfAdmin[1].toLowerCase().equals(phrase.toLowerCase())) {
+					System.out.println("\nAlready Exist!\n");
+					doesExist = true;
+					break;
+				}
+				
+			}// while
+			
+			customerBufferedReader.close();
+		} catch(Exception ex) {
+			System.out.println("*Unable to open file " + ex.getMessage()+"*");
+		}
+		
+		return doesExist;
+	}
+	
+	public static int generateID(Type type) throws IOException {
+		
+		String filePath = null;
+		
+		switch(type) {
+		
+		case CUSTOMER:
+			filePath = customersFilePath;
+			break;
+		case ORDER:
+			filePath = ordersFilePath;
+			break;
+		case PRODUCT:
+			filePath = productsFilePath;
+			break;
+		}//end of switch
+		
+			FileReader customerFileReader = new FileReader(filePath);
+			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+			String currentLine = null;
+			String lastLine = null;
+			
+			while((currentLine = customerBufferedReader.readLine()) != null) {
+				lastLine = currentLine;
+			}
+			customerBufferedReader.close();
+			
+			if(lastLine != null) {
+				String[] arrOfLastLine = lastLine.split("-");
+				int intOfId = Integer.parseInt(arrOfLastLine[0]);
+				return intOfId+1;
+			} else {
+				return 1;
+			}
 	}
 	
 	public static Boolean isUsernameAvailable(String username) {
@@ -57,23 +151,17 @@ public interface MainInterface {
 			
 			customerBufferedReader.close();
 			
-		}catch(FileNotFoundException ex) {
+		}catch(Exception ex) {
 			System.out.println("*Unable to open file " + ex.getMessage()+"*");
-		}//end of FileNotFoundException
-		catch(IOException ex) {
-            System.out.println("*Error reading file " + ex.getMessage()+"*");
-        }//end of IOException
-		catch(NullPointerException ex) {
-			System.out.println("*Error: "+ ex.getMessage()+"*");
-		}//end of NullPointerException
+		}
 		
 		return doesExist;
 	}
-	
-	
+
 //	public static boolean isNumeric(String strNum) {
 //	    try {
-//	        double d = Double.parseDouble(strNum);
+//	    	
+//	    	Double.parseDouble(strNum);
 //	    } catch (NumberFormatException | NullPointerException nfe) {
 //	        return false;
 //	    }

@@ -2,13 +2,16 @@ package admin;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import customer.Customer;
+import com.Customers.Customer;
+import com.Products.Product;
+
 import interfaces.MainInterface;
 
 public class Admin implements MainInterface {
 	
 	private static Scanner input = new Scanner(System.in);
 	Customer c = new Customer();
+	Product p = new Product();
 	
 	public Admin() {
 		
@@ -27,17 +30,18 @@ public class Admin implements MainInterface {
 					+ "Enter your choice: ");
 			
 			option = input.next();
-		} while(MainInterface.isValidInput(option, 3) == false); 
+		} while(MainInterface.isValidIntInput(option, 3) == false); 
 			
 		//System.out.print("options here is: "+option+"\n");
 		
 		switch(Integer.parseInt(option)) {
-		
+			case 0:
+				System.exit(0);
 			case 1:
 				c.menu(true);
 				break;
 			case 2:
-				productsMenu();
+				p.menu(true);
 				break;
 			case 3:
 				ordersMenu();
@@ -48,57 +52,6 @@ public class Admin implements MainInterface {
 			}
 	}
 	
-	private void productsMenu() {
-		
-		int option = 4;
-		
-		while(!(option == 2 || option == 1 || option == 3 || option == 0)) {
-			
-			try {
-				System.out.println("\n\n-- PRODUCTS MENU --\n"
-						+ "Enter 1 to Add New Product\n"
-						+ "Enetr 2 to View All Products\n"
-						+ "Enter 3 to Search Products\n"
-						+ "----\n"
-						+ "Enter 0 to go back to main menu\n\n"
-						+ "Enter your choice: ");
-				
-				option = input.nextInt();
-				
-				if(option > 4 || option < 0) {
-					System.out.println("Invalid menu number entered. A valid menu option is required.");
-				}
-				
-			} catch (InputMismatchException ex) {
-				System.out.println("Invalid menu number entered. A valid menu option is required.");
-				if(input.hasNextInt()) {
-					option = input.nextInt();
-				} else {
-					input.next();
-					continue;
-				}
-				 //The error occurs here
-			}
-		}
-
-		switch(option) {
-			case 0:
-				adminMainMenu();
-				break;
-			case 1:
-				System.out.println("You have entered: "+ option);
-				break;
-			case 2:
-				System.out.println("You have entered: "+ option);
-				break;
-			case 3:
-				System.out.println("You have entered: "+ option);
-				break;
-			default:
-				System.out.println("Default is running");
-				break;
-			}
-	}
 	private void ordersMenu() {
 		int option = 4;
 		
