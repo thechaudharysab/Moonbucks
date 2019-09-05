@@ -22,13 +22,13 @@ public interface MainInterface {
 			int numericEnteredValue = Integer.parseInt(enteredVal);
 			
 			//System.out.println(numericEnteredValue+" > "+limit+" < 0\n");
-			
-			if(numericEnteredValue > limit && numericEnteredValue < 0) {
+			//11 > 1 and 11 < 0
+			if (numericEnteredValue == -1) {
+				return false;
+			} else if(numericEnteredValue > limit || numericEnteredValue < 0) {
 				System.out.println("Invalid menu number entered. A valid menu option is required.");
 				return false;
-			} else if (numericEnteredValue == -1) {
-				return false;
-			}else return true;
+			} else return true;
 			
         } catch(Exception exception) {
         	System.out.println("Invalid menu number entered. A valid menu option is required.");
