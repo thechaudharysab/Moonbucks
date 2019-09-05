@@ -1,6 +1,5 @@
 package com.Customers;
 import java.io.*;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -89,7 +88,7 @@ public class Customer implements ClassInterface, MainInterface {
 			customerBufferedReader.close();
 			
 		} catch(Exception e) {
-			System.out.println("*Unable to open file '" + customersFilePath + "' " + e.getMessage()+"*");
+			e.printStackTrace();
 		}
 		
 	}
@@ -219,8 +218,8 @@ public class Customer implements ClassInterface, MainInterface {
 		
 			System.out.println("*Successfully Added New User*");
 			
-		} catch(Exception ex) {
-			System.out.println("Error: " + ex.getMessage());
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		
 		menu(true);
@@ -246,7 +245,7 @@ public class Customer implements ClassInterface, MainInterface {
 		searchQuery += input.nextLine();
 		
 		Search s = new Search();
-		s.search(Type.CUSTOMER, searchQuery);
+		s.search(Type.CUSTOMER, searchQuery, true);
 		
 		menu(isUserAdmin);
 		
@@ -341,49 +340,49 @@ public class Customer implements ClassInterface, MainInterface {
 	
 	private void myOrdersMenu() {
 		
-		int option = 3;
-		
-		while(!(option == 2 || option == 1 || option == 0)) {
-			
-			try {
-				System.out.println("\n\n-- VIEW ORDERS --\n"
-						+ "Enter 1 to search orders\n"
-						+ "Enter 2 to see all your orders\n"
-						+ "----\n"
-						+ "Enter 0 to go back to main menu\n\n"
-						+ "Enter your choice: ");
-				option = input.nextInt();
-				
-				if(option > 2 || option < 0) {
-					System.out.println("Invalid menu number entered. A valid menu option is required.");
-				}
-				
-			} catch (InputMismatchException ex) {
-				System.out.println("Invalid menu number entered. A valid menu option is required.");
-				if(input.hasNextInt()) {
-					option = input.nextInt();
-				} else {
-					input.next();
-					continue;
-				}
-				 //The error occurs here
-			}
-		}
-
-		switch(option) {
-		case 0:
-			menu(false);
-			break;
-		case 1:
-				System.out.println("You have entered: "+option);
-				break;
-		case 2:
-				System.out.println("You have entered: "+option);
-				break;
-		default:
-				System.out.println("Default is running");
-				break;
-			}
+//		int option = 3;
+//		
+//		while(!(option == 2 || option == 1 || option == 0)) {
+//			
+//			try {
+//				System.out.println("\n\n-- VIEW ORDERS --\n"
+//						+ "Enter 1 to search orders\n"
+//						+ "Enter 2 to see all your orders\n"
+//						+ "----\n"
+//						+ "Enter 0 to go back to main menu\n\n"
+//						+ "Enter your choice: ");
+//				option = input.nextInt();
+//				
+//				if(option > 2 || option < 0) {
+//					System.out.println("Invalid menu number entered. A valid menu option is required.");
+//				}
+//				
+//			} catch (InputMismatchException ex) {
+//				System.out.println("Invalid menu number entered. A valid menu option is required.");
+//				if(input.hasNextInt()) {
+//					option = input.nextInt();
+//				} else {
+//					input.next();
+//					continue;
+//				}
+//				 //The error occurs here
+//			}
+//		}
+//
+//		switch(option) {
+//		case 0:
+//			menu(false);
+//			break;
+//		case 1:
+//				System.out.println("You have entered: "+option);
+//				break;
+//		case 2:
+//				System.out.println("You have entered: "+option);
+//				break;
+//		default:
+//				System.out.println("Default is running");
+//				break;
+//			}
 	}
 
 

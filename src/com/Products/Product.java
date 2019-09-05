@@ -111,10 +111,10 @@ public class Product implements ClassInterface, MainInterface {
 			output.close();
 			
 			System.out.println("* Successfully Added New Product *");
-			
+			menu(null);
 
 		} catch(Exception e) {
-			System.out.println("Error: "+e.getMessage());
+			e.printStackTrace();
 		}
 		
 	}
@@ -137,7 +137,7 @@ public class Product implements ClassInterface, MainInterface {
 		Search s = new Search();
 		
 		System.out.println("Search Query 1: "+searchQuery.toLowerCase()+"------ \n");
-		s.search(Type.PRODUCT, searchQuery);
+		s.search(Type.PRODUCT, searchQuery, true);
 		
 		menu(true);
 		
@@ -147,6 +147,8 @@ public class Product implements ClassInterface, MainInterface {
 	public void edit(List<String> recordsToEdit) {
 		
 		//input.nextLine();
+		
+		//TODO: When product is edited it should also edit in orders
 		
 		try {
 			

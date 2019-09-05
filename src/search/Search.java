@@ -27,7 +27,7 @@ public class Search implements MainInterface {
 		
 	}
 	
-	public void search(Type searchType, String searchQuery) {
+	public List<String> search(Type searchType, String searchQuery, Boolean showMenu) {
 		
 		//String searchQueryLowerCase = searchQuery.toLowerCase();
 		String filePath = "";
@@ -50,12 +50,12 @@ public class Search implements MainInterface {
 			
 			FileReader fileReader = new FileReader(filePath);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			String oneLine = null;
+			String oneLine = "";
 			
 			while((oneLine = bufferedReader.readLine()) != null) {
-				System.out.println("Search Query: "+searchQuery.toLowerCase()+"------ \n");
+				//System.out.println("Search Query: "+searchQuery.toLowerCase()+"------ \n");
 				if(oneLine.toLowerCase().contains(searchQuery.toLowerCase())) {
-					System.out.print(oneLine+"\n---------------------------\n");
+					//System.out.print(oneLine+"\n---------------------------\n");
 					foundRecords.add(oneLine);
 				}
 				
@@ -64,13 +64,18 @@ public class Search implements MainInterface {
 			System.out.println("\nSearch finished. "+foundRecords.size()+" record(s) found");
 			bufferedReader.close();
 			
-			if(foundRecords.size() > 0) {
+			if(foundRecords.size() > 0 && showMenu ==  true) {
 				searchMenu(searchType);
+				return null;
 			}
 			
 		} catch(Exception e) {
-			System.out.println("*Unable to open file '" + filePath + "' " + e.getMessage()+"*");
+			e.printStackTrace();
+			return null;
 		}
+		
+		return foundRecords;
+		
 	}
 	
 	private void searchMenu(Type searchType) throws FileNotFoundException, IOException {
