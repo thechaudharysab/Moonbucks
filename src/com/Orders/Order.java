@@ -1,10 +1,14 @@
 package com.Orders;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.Admin.Admin;
+import com.Main.Login;
 
 import constants.Type;
 import interfaces.ClassInterface;
@@ -17,6 +21,9 @@ public class Order implements ClassInterface, MainInterface {
 	private static Scanner input = new Scanner(System.in);
 	Boolean isAdmin = true;
 	float totalPrice = 0;
+	Writer output;
+	String option = "-1";
+	
 	List<String> searchResult = new ArrayList<String>();
 	List<String> productsList = new ArrayList<String>();
 	
@@ -43,7 +50,6 @@ public class Order implements ClassInterface, MainInterface {
 			}//eo While
 		}
 		
-
 		switch(Integer.parseInt(option)) {
 			case 0:
 				Admin a = new Admin();
@@ -68,196 +74,94 @@ public class Order implements ClassInterface, MainInterface {
 	@Override
 	public void add() {
 		
-		//Show Menu i.e. press 1 to search a product 2 to view list of all products
+		option = "-1";
 		
-		String option = "-1";
+		//MENU 1
+		if(productsList.size()>0) {
+			while(MainInterface.isValidIntInput(option, 3) == false) {
+				
+				System.out.println("\n\n-- ADD ITEM(s) TO ORDER --\n"
+						+ "Enter 1 to search/enter product by name\n"
+						+ "Enter 2 to view list of all products\n"
+						+ "Enter 3 to view cart\n"
+						+ "----\n"
+						+ "Enter 0 to discard this order and go back to orders main menu\n\n"
+						+ "Enter your choice: ");
+				
+				option = input.next();
+				
+			}//EO while
+		} else {
+			while(MainInterface.isValidIntInput(option, 2) == false) {
+				
+				System.out.println("\n\n-- ADD ITEM(s) TO ORDER --\n"
+						+ "Enter 1 to search/enter product by name\n"
+						+ "Enter 2 to view list of all products\n"
+						+ "----\n"
+						+ "Enter 0 to go back to orders main menu\n\n"
+						+ "Enter your choice: ");
+				
+				option = input.next();
+				
+			}//EO while
+		}//EO if-else product size > 0
 		
-		while(MainInterface.isValidIntInput(option, 2) == false) {
-			//Menu 1
-			System.out.println("\n\n-- ADD ITEM(s) TO ORDER --\n"
-					+ "Enter 1 to search/enter product by name\n"
-					+ "Enetr 2 to view list of all products\n"
-					+ "----\n"
-					+ "Enter 0 to go back to orders menu\n\n"
-					+ "Enter your choice: ");
-			
-			option = input.next();
-
-		}//eo While
 		
-		//switch of Menu 1
+		//Switch of MENU 1 \\\\\\\\\\\\\\\\\\
 		switch(Integer.parseInt(option)) {
-		
 		case 0:
 			totalPrice = 0;
 			productsList.clear();
 			menu(isAdmin);
-			break;
+			break;//case 0 of menu 1
 		case 1:
-			//Search Product
+			//search products
+			searchProduct();
 			
-			String searchQuery = "";
-			
-			System.out.println("Enter Product Name: ");
-			
-			searchQuery = input.next();
-			searchQuery += input.nextLine();
-			
-			Search s = new Search();
-			searchResult.clear();
-			searchResult = s.search(Type.PRODUCT, searchQuery, false);
-			
-			if(searchResult.size() !=1) {
-				searchResult.clear();
-				System.out.println("Which product do you want to buy? Be specific.");
-				add();
-			} else if(searchResult.size() == 1) {
+			option = "-1";
+			while(MainInterface.isValidIntInput(option, 1) == false) {
 				
-				//Print result
-				String[] product = searchResult.get(0).split("-");
-				System.out.println("\n----------------------------");
-				System.out.println("Product Name: "+product[1]
-									+"\nPrice: RM "+product[2]);
-				if(product[3].equals("y")) {
-					System.out.println("This Product is fragile an extra RM 5.00 will be charged.");
-				}
-				System.out.println("----------------------------");
-				//print result end
-				
-				option = "-1";
-				
-				while(MainInterface.isValidIntInput(option, 1) == false) {
-					//Menu 2
-					System.out.println("\n----\n"
+				//MENU 2
+				System.out.println("\n----\n"
 							+ "Enter 1 to add this product to cart\n"
 							+ "----\n"
-							+ "Enter 0 to discard changes and go back to orders menu\n\n"
+							+ "Enter 0 to go back to orders menu\n\n"
 							+ "Enter your choice: ");
 					
 					option = input.next();
 
 				}//eo While
-				
-				//switch of menu 2
-				switch(Integer.parseInt(option)) {
-				case 0:
-					totalPrice = 0;
-					productsList.clear();
-					menu(isAdmin);
-					break;
-				case 1:
-					//add to cart
-					
-					productsList.add(searchResult.get(0));
-					System.out.println("* Product added to cart *");
-					
-					option = "-1";
-					
-					while(MainInterface.isValidIntInput(option, 2) == false) {
-						//menu 3
-						System.out.println("\n\n-- MENU --\n"
-								+ "Enter 1 to add more items\n"
-								+ "Enetr 2 to view cart\n"
-								+ "----\n"
-								+ "Enter 0 to discard changes and go back to orders menu\n\n"
-								+ "Enter your choice: ");
-						
-						option = input.next();
-
-					}//eo While
-					
-					//switch of menu 3s
-					switch(Integer.parseInt(option)) {
-					case 0:
-						totalPrice = 0;
-						productsList.clear();
-						menu(isAdmin);
-						break;
-					case 1:
-						//Add More Items
-						add();
-						break;
-					case 2:
-						//View Cart
-						
-						System.out.println("---- CART("+productsList.size()+") ----\n");
-						
-						for(int i=0;i<productsList.size();i++) {
-							String[] oneProduct = productsList.get(i).split("-");
-							if(oneProduct[3].equals("y")) {
-								totalPrice += 5 + Float.parseFloat(oneProduct[2]);
-								System.out.println("Product: "+oneProduct[1]+" Price: RM "+oneProduct[2]+" +RM 5.00 (fragile)");
-							} else if(oneProduct[3].equals("n")) {
-								totalPrice += Float.parseFloat(oneProduct[2]);
-								System.out.println("Product: "+oneProduct[1]+" Price: RM "+oneProduct[2]);
-							} else {
-								System.out.println("Something is wrong! We are not sure but try again. 6");
-							}//eo if-ifelse-else
-						}//eo For
-						System.out.println("--------\nTotal bill: RM "+totalPrice+"\n--------");
-						
-						//Menu 4
-						
-						option = "-1";
-						
-						while(MainInterface.isValidIntInput(option, 2) == false) {
-							//menu 3
-							System.out.println("\n\n-- MENU --\n"
-									+ "Enter 1 to add more items\n"
-									+ "Enetr 2 to checkout\n"
-									+ "----\n"
-									+ "Enter 0 to discard changes and go back to orders menu\n\n"
-									+ "Enter your choice: ");
-							
-							option = input.next();
-						}//eo While
-						
-						switch(Integer.parseInt(option)) {
-						case 0:
-							totalPrice = 0;
-							menu(isAdmin);
-							break;
-						case 1:
-							//add more items
-							add();
-							break;
-						case 2:
-							//checkout
-							checkOut();
-							break;
-						default:
-							System.out.println("Something is wrong! We are not sure but try again.");
-							break;
-						}
-						
-						break;
-					default:
-						System.out.println("Something is wrong! We are not sure but try again. 5");
-						break;
-					}//eo switch of menu 3
-					break;
-				default:
-					System.out.println("Something is wrong! We are not sure but try again. 4");
-					break;
-				}//eo switch of menu 2
-			}//eo else if
 			
-			break;
+			//Switch of MENU 2 \\\\\\\\\\\\\\\\\\
+			switch(Integer.parseInt(option)) {
+			case 0:
+				add();
+				break; //case 0 of menu 2
+			case 1:
+				productsList.add(searchResult.get(0));
+				System.out.println("* Product added to cart *");
+				add();
+				break; //case 1 of menu 2
+			}
+			//Switch of MENU 2 \\\\\\\\\\\\\\\\\\
+			
+			break;//case 1 of menu 1
 		case 2:
-			//Products List
+			//View list of products
 			ViewRecords v = new ViewRecords();
 			v.viewRecord(Type.PRODUCT);
 			add();
-			break;
-		default:
-			System.out.println("Something is wrong! We are not sure but try again. 3");
-			break;
-		}//eo Switch of Menu 1
-	}
+			break;//case 2 of menu 1
+		case 3:
+			viewCart();
+			add();
+			break;//case 3 of menu 1
+		}
+		//EO Switch of MENU 1 \\\\\\\\\\\\\\\\\\
+	}//EO add()
 
 	@Override
 	public void view() {
-		
 		
 	}
 
@@ -279,12 +183,116 @@ public class Order implements ClassInterface, MainInterface {
 		
 	}
 	
+	//Place Order Methods
+	
+	private void searchProduct() {
+		
+		String searchQuery = "";
+		
+		System.out.println("Enter Product Name: ");
+		
+		searchQuery = input.next();
+		searchQuery += input.nextLine();
+		
+		Search s = new Search();
+		searchResult.clear();
+		searchResult = s.search(Type.PRODUCT, searchQuery, false);
+		
+		if(searchResult.size() !=1) {
+			searchResult.clear();
+			System.out.println("Which product do you want to buy? Be specific.");
+			add();
+		} else if(searchResult.size() == 1) {
+			
+			//Print result
+			String[] product = searchResult.get(0).split("-");
+			System.out.println("\n----------------------------");
+			System.out.println("Product Name: "+product[1]
+								+"\nPrice: RM "+product[2]);
+			if(product[3].equals("y")) {
+				System.out.println("This Product is fragile an extra RM 5.00 will be charged.");
+			}
+			System.out.println("----------------------------");
+		
+		
+		}
+	}
+	
+	private void viewCart() {
+		
+		totalPrice = 0;
+		
+		System.out.println("---- CART("+productsList.size()+") ----\n");
+		
+		for(int i=0;i<productsList.size();i++) {
+			String[] oneProduct = productsList.get(i).split("-");
+			if(oneProduct[3].equals("y")) {
+				totalPrice += 5 + Float.parseFloat(oneProduct[2]);
+				System.out.println("Product: "+oneProduct[1]+" Price: RM "+oneProduct[2]+" +RM 5.00 (fragile)");
+			} else if(oneProduct[3].equals("n")) {
+				totalPrice += Float.parseFloat(oneProduct[2]);
+				System.out.println("Product: "+oneProduct[1]+" Price: RM "+oneProduct[2]);
+			} else {
+				System.out.println("Something is wrong! We are not sure but try again. 6");
+			}//eo if-ifelse-else
+		}//eo For
+		System.out.println("--------\nTotal bill: RM "+totalPrice+"\n--------");
+		
+		option = "-1";
+		
+		while(MainInterface.isValidIntInput(option, 2) == false) {
+			//TODO should we give an option to remove an item from cart?
+			System.out.println("\n\n-- OPTIONS --\n"
+					+ "Enter 1 to add more items\n"
+					+ "Enetr 2 to checkout\n"
+					+ "----\n"
+					+ "Enter 0 to discard this order and go back to orders main menu\n\n"
+					+ "Enter your choice: ");
+			
+			option = input.next();
+		}//eo While
+		
+		switch(Integer.parseInt(option)) {
+			
+		case 0:
+			totalPrice = 0;
+			productsList.clear();
+			menu(isAdmin);
+			break;
+		case 1:
+			break;
+		case 2:
+			checkOut();
+			break;	
+		}
+	}
 	
 	private void checkOut()
 	{
-		//if 2 is entered generate order ID
 		
-		//write orderitems.txt with orderitems and product array unzipping
+		try {
+			String currentUserName = Login.currentUserName;
+			int orderID = MainInterface.generateID(Type.ORDER);
+			
+			//Write OrderItems
+			
+			for(int i=0; i<productsList.size(); i++) {
+				output = new BufferedWriter(new FileWriter(orderItemsFilePath, true));
+				output.write(orderID+"-"+productsList.get(i)+"\n");
+				
+				output.close();
+			}
+			
+			//Write to Order
+			output = new BufferedWriter(new FileWriter(ordersFilePath, true));
+			output.write(orderID+"-"+currentUserName+"-"+totalPrice+"-"+MainInterface.getDateTimeNow()+"\n");
+			output.close();
+			
+			System.out.println("* Your order has been placed *");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

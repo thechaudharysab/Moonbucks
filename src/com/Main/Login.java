@@ -1,3 +1,5 @@
+package com.Main;
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -6,11 +8,13 @@ import com.Customers.Customer;
 
 import interfaces.MainInterface;
 
-public class Main implements MainInterface {
+public class Login implements MainInterface {
 
 	
-	public static String username;
+	private static String username;
 	private static String password;
+	
+	public static String currentUserName = "";
 	
 	private static Scanner input = new Scanner(System.in);
 	
@@ -25,22 +29,24 @@ public class Main implements MainInterface {
 				loginInput();
 			}
 			
-			if(isAdminLoginSuccessful==true || isCustomerLoginSuccessful==true) {
+			//if(isAdminLoginSuccessful==true || isCustomerLoginSuccessful==true) {
 				
 				if(isCustomerLoginSuccessful==true) {
 					
 					Customer c = new Customer(username);
 					System.out.print("Welcome "+c.getcustomerName()+"!");
+					//Customer.currentUserName = username;
 					c.menu(false);
 					
 				} else {
 					
 					Admin a = new Admin();
 					System.out.print("Welcome Admin");
+					//Admin.currentUserName = username;
 					a.adminMainMenu();
 					
 				}
-			}
+			//}
 			
 	}//end of main
 	
@@ -72,6 +78,7 @@ public class Main implements MainInterface {
 				
 				String[] arrOfAdmin = oneLine.split("-");
 				if(arrOfAdmin[0].equals(username)  && arrOfAdmin[1].equals(password)) {
+						currentUserName = username;
 						System.out.println("\n*Login Successful*\n");
 						isAdminLoginSuccessful = true;
 					}
@@ -85,6 +92,7 @@ public class Main implements MainInterface {
 					
 					String[] arrOfUser = oneLine.split("-");
 					if(arrOfUser[0].equals(username)  && arrOfUser[1].equals(password)) {
+							currentUserName = username;
 							System.out.println("\n*Login Successful*\n");
 							isCustomerLoginSuccessful = true;
 						}

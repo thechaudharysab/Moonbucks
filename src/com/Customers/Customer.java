@@ -21,7 +21,7 @@ public class Customer implements ClassInterface, MainInterface {
 	private String customerPhone;
 	protected String password;
 	
-	
+	//public static String currentUserName = "";
 	
 	private static Scanner input = new Scanner(System.in);
 	Writer output;
@@ -228,6 +228,7 @@ public class Customer implements ClassInterface, MainInterface {
 
 	@Override
 	public void view() {
+				
 		ViewRecords v = new ViewRecords();
 		v.viewRecord(Type.CUSTOMER);
 		menu(isUserAdmin);

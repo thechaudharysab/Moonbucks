@@ -3,6 +3,8 @@ package interfaces;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import constants.Type;
 
@@ -12,6 +14,7 @@ public interface MainInterface {
 	public static String customersLoginFilePath = "src/TextFiles/CustomerLogin.txt";
 	public static String customersFilePath = "src/TextFiles/Customers.txt";
 	public static String ordersFilePath = "src/TextFiles/Orders.txt";
+	public static String orderItemsFilePath = "src/TextFiles/OrderItems.txt";
 	public static String productsFilePath = "src/TextFiles/Products.txt";
 	
 	// Methods
@@ -158,6 +161,13 @@ public interface MainInterface {
 		return doesExist;
 	}
 
+	public static String getDateTimeNow() {
+		
+		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		   LocalDateTime now = LocalDateTime.now();  
+		   return dtf.format(now); 
+		
+	}
 //	public static boolean isNumeric(String strNum) {
 //	    try {
 //	    	

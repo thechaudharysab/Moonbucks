@@ -14,6 +14,8 @@ public class Admin implements MainInterface {
 	Product p = new Product();
 	Order o = new Order();
 	
+	//public static String currentUserName = "";
+	
 	public Admin() {
 		
 	}
