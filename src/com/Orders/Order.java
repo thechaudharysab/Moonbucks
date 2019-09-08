@@ -13,6 +13,7 @@ import com.Admin.Admin;
 import com.Main.Login;
 
 import constants.Type;
+import delete.Delete;
 import interfaces.MainInterface;
 import search.Search;
 import view.ViewRecords;
@@ -25,6 +26,7 @@ public class Order implements MainInterface {
 	Writer output;
 	String option = "-1";
 	
+	List<String> storedOrderIDs = new ArrayList<String>();
 	List<String> searchResult = new ArrayList<String>();
 	List<String> productsList = new ArrayList<String>();
 	
@@ -168,6 +170,7 @@ public class Order implements MainInterface {
 		
 		//Show a menu
 		option = "-1";
+		storedOrderIDs.clear();
 		
 		while(MainInterface.isValidIntInput(option, 2) == false) {
 			
@@ -241,6 +244,9 @@ public class Order implements MainInterface {
 		// TODO Auto-generated method stub
 		
 	//	if(isAdmin == true) {
+		option = "-1";
+		storedOrderIDs.clear();
+		
 			while(MainInterface.isValidIntInput(option, 3) == false) {
 				
 				System.out.println("\n\n-- SEARCH ORDERS --\n"
@@ -291,7 +297,11 @@ public class Order implements MainInterface {
 					e.printStackTrace();
 				}
 				
-				menu(isAdmin);
+				if(storedOrderIDs.size()>0) {
+					showSearchResultMenu();
+				} else {
+					menu(isAdmin);
+				}
 				
 				break;
 			case 2:
@@ -303,7 +313,6 @@ public class Order implements MainInterface {
 				break;
 			}
 			
-			
 	//	}//id isAdmin true
 		
 		//Show menu to search in all orders or only search in mine
@@ -313,7 +322,7 @@ public class Order implements MainInterface {
 	}
 
 	
-	public void edit(List<String> recordsToEdit) {
+	public void edit(String orderID) {
 		// TODO Auto-generated method stub
 		
 		//Will only call this function when searchResult == 1
@@ -323,15 +332,52 @@ public class Order implements MainInterface {
 	}
 
 	
-	public void delete(List<String> recordsToDelete) {
+	public void delete(String orderID) {
 		// TODO Auto-generated method stub
 		//in deleting you can delete a full order
+		//Admin can delete all orders
+		
+		try {
+			FileReader orderFileReader = new FileReader(ordersFilePath);
+			BufferedReader orderBufferedReader = new  BufferedReader(orderFileReader);
+			
+			FileReader orderItemsFileReader = new FileReader(orderItemsFilePath);
+			BufferedReader orderItemsBufferedReader = new  BufferedReader(orderItemsFileReader);
+			
+			String orderLine = null;
+			String orderItemLine = null;
+			
+			while((orderLine = orderBufferedReader.readLine()) != null) {
+				String[] splitedOrderLine = orderLine.split("-");
+				if(splitedOrderLine[0].equals(orderID)) {
+					Delete.deleteRecord(orderLine, ordersFilePath);
+				}
+			}//end of while
+			orderBufferedReader.close();
+			
+			while((orderItemLine = orderItemsBufferedReader.readLine()) != null) {
+				
+				String[] splitedOrderItemLine = orderItemLine.split("-");
+				
+				if(splitedOrderItemLine[0].equals(orderID)) {
+					Delete.deleteRecord(orderItemLine, orderItemsFilePath);
+				}//eo if splitedorder id = splited order item						
+			}//end of orderItemsBufferedReader while
+			orderItemsBufferedReader.close();
+			
+			System.out.println("* Delete Operation Finished Successfully *");
+			menu(isAdmin);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//Other Methods
 	private void printOrderSummary(String orderID) {
 		try {
-			
+			storedOrderIDs.add(orderID);
 			FileReader orderFileReader = new FileReader(ordersFilePath);
 			BufferedReader orderBufferedReader = new  BufferedReader(orderFileReader);
 			
@@ -375,6 +421,41 @@ public class Order implements MainInterface {
 		}
 	}
 	
+	private void showSearchResultMenu() {
+		
+		option = "-1";
+		
+		while(MainInterface.isValidIntInput(option, 2) == false) {
+			
+			//TODO should we give an option to remove an item from cart?
+			
+			System.out.println("\n\n-- Additional Options --\n"
+					+ "Enter 1 to EDIT these order(s)\n"
+					+ "Enter 2 to DELETE these order(s)\n"
+					+ "----\n"
+					+ "Enter 0 to go back to orders menu\n\n"
+					+ "Enter your choice: ");
+			
+			option = input.next();
+		}//eo While
+		
+		switch(Integer.parseInt(option)) {
+		case 0:
+			menu(isAdmin);
+			break;
+		case 1:
+			
+			break;
+		case 2:
+			for(int i=0;i<storedOrderIDs.size();i++) {
+				delete(storedOrderIDs.get(i));
+			}
+			break;
+		default:
+			System.out.println("Something is wrong! We are not sure but try again.");
+			break;
+		}
+	}
 	
 	//Place Order Methods
 	
