@@ -128,6 +128,7 @@ public class Product implements ClassInterface, MainInterface {
 
 	@Override
 	public void search() {
+		
 		String searchQuery = "";
 		
 		System.out.print("\n* Search Products *\n---------------------------\n");

@@ -1,9 +1,7 @@
 package view;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 import constants.Type;
 import interfaces.MainInterface;
@@ -34,11 +32,11 @@ public class ViewRecords implements MainInterface {
 		}//end of switch
 		
 		try {
-			FileReader customerFileReader = new FileReader(filePath);
-			BufferedReader customerBufferedReader = new BufferedReader(customerFileReader);
+			FileReader fileReader = new FileReader(filePath);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String oneLine = null;
 			
-			while((oneLine = customerBufferedReader.readLine()) != null) {
+			while((oneLine = bufferedReader.readLine()) != null) {
 				
 				//String[] arrOfUser = oneLine.split("-");
 //				for(int i=0;i<arrOfUser.length;i++) {
@@ -49,17 +47,11 @@ public class ViewRecords implements MainInterface {
 					
 	        }//end of while
 			
-			customerBufferedReader.close();
+			bufferedReader.close();
 			
-		} catch(FileNotFoundException ex) {
-			System.out.println("*Unable to open file '" + filePath + "' " + ex.getMessage()+"*");
-		}//end of FileNotFoundException
-		catch(IOException ex) {
-            System.out.println("Error reading file '" + filePath + "' " + ex.getMessage()+"*");
-        }//end of IOException
-		catch(NullPointerException ex) {
-			System.out.println("Error: "+ ex.getMessage()+"*");
-		}//end of NullPointerException
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
