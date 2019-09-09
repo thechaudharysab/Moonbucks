@@ -55,7 +55,7 @@ public class Search implements MainInterface {
 			while((oneLine = bufferedReader.readLine()) != null) {
 				//System.out.println("Search Query: "+searchQuery.toLowerCase()+"------ \n");
 				if(oneLine.toLowerCase().contains(searchQuery.toLowerCase())) {
-					//System.out.print(oneLine+"\n---------------------------\n");
+					System.out.print(oneLine+"\n---------------------------\n");
 					foundRecords.add(oneLine);
 				}
 				
@@ -84,7 +84,7 @@ public class Search implements MainInterface {
 		
 		do {
 			if(foundRecords.size() > 1) {
-				System.out.println("\nEnter 1 to edit these records\nEnter 2 to delete all of these records\n--------------------\nEnter 0 to go back to menu\n\nEnter your choice: ");
+				System.out.println("\nEnter 1 to edit all these records\nEnter 2 to delete all of these records\n--------------------\nEnter 0 to go back to menu\n\nEnter your choice: ");
 			} else {
 				System.out.println("\nEnter 1 to edit this record\nEnter 2 to delete this record\n--------------------\nEnter 0 to go back to menu\n\nEnter your choice: ");
 			}
