@@ -16,3 +16,4 @@ Customer can **Add/Edit/Update/Edit/Delete**:
 - Orders
 <p> Actors should be able to login in order to access the system.
 <br /> Program uses text files (.txt) to perform read/write operations.
+<img src="General-Overview.jpg" align="center"/>
