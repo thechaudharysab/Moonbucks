@@ -507,7 +507,7 @@ public class Order implements MainInterface {
 					
 					if(totalItems == 1) {
 						//Meaning it's the last product in order
-						System.out.println("This is the only product of this order, so whole order will be deleted now.");
+						System.out.println("* This is the only product of this order, so whole order will be deleted now. *");
 						
 						while((orderLine = orderBufferedReader.readLine()) != null) {
 							String[] splitedOrderLine = orderLine.split("-");
