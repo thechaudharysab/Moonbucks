@@ -14,6 +14,7 @@ import com.Main.Login;
 
 import constants.Type;
 import delete.Delete;
+import edit.Edit;
 import interfaces.MainInterface;
 import search.Search;
 import view.ViewRecords;
@@ -325,9 +326,35 @@ public class Order implements MainInterface {
 	public void edit(String orderID) {
 		// TODO Auto-generated method stub
 		
-		//Will only call this function when searchResult == 1
-		//if order placed order is by the same person editing it and the date is today only then allow to edit.
-		// in editing mode you can only remove an order item
+		System.out.println("--------- Editing Order ---------");
+		printOrderSummary(orderID);
+		
+		String searchQuery = "";
+		
+		System.out.println("Enter product name that you want to remove from the order: ");
+		searchQuery = input.next();
+		searchQuery += input.nextLine();
+		
+		try {
+			FileReader orderItemsFileReader = new FileReader(orderItemsFilePath);
+			BufferedReader orderItemsBufferedReader = new  BufferedReader(orderItemsFileReader);
+			
+			String orderItemLine = null;
+			int totalItems = 0;
+			
+			while((orderItemLine = orderItemsBufferedReader.readLine()) != null) {
+				
+				String[] splitedOrderItemLine = orderItemLine.split("-");
+				if(splitedOrderItemLine[0].equals(orderID)) {
+					totalItems+=1;
+				}//eo if			
+			}//end of orderItemsBufferedReader while
+			orderItemsBufferedReader.close();
+			deleteOrderItem(searchQuery, orderID, totalItems);
+			menu(isAdmin);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -407,7 +434,7 @@ public class Order implements MainInterface {
 					System.out.println("Total Bill: RM "+splitedOrderLine[2]
 										+"\nOrder placed by: "+splitedOrderLine[1]
 										+"\nDate Time: "+splitedOrderLine[3]);
-					System.out.println("\n--------------------------------------------\n");
+					System.out.println("\n||||||||||||||||||||||||||||||||||||||||||||||\n");
 					orderItemsBufferedReader.close();
 					
 				}//EO if equals currentUserName
@@ -444,6 +471,9 @@ public class Order implements MainInterface {
 			menu(isAdmin);
 			break;
 		case 1:
+			for(int i=0;i<storedOrderIDs.size();i++) {
+				edit(storedOrderIDs.get(i));
+			}
 			
 			break;
 		case 2:
@@ -454,6 +484,72 @@ public class Order implements MainInterface {
 		default:
 			System.out.println("Something is wrong! We are not sure but try again.");
 			break;
+		}
+	}
+	
+	private void deleteOrderItem(String searchQuery, String orderID, int totalItems) {
+		try {
+			FileReader orderItemsFileReader = new FileReader(orderItemsFilePath);
+			BufferedReader orderItemsBufferedReader = new  BufferedReader(orderItemsFileReader);
+			String orderItemLine = null;
+			
+			FileReader orderFileReader = new FileReader(ordersFilePath);
+			BufferedReader orderBufferedReader = new  BufferedReader(orderFileReader);
+			String orderLine = null;
+			
+			float totalPrice = 0;
+			
+			while((orderItemLine = orderItemsBufferedReader.readLine()) != null) {
+				
+				String[] splitedOrderItemLine = orderItemLine.split("-");
+				
+				if((splitedOrderItemLine[2].toLowerCase().contains(searchQuery.toLowerCase())) && (splitedOrderItemLine[0].equals(orderID))) {
+					
+					if(totalItems == 1) {
+						//Meaning it's the last product in order
+						System.out.println("This is the only product of this order, so whole order will be deleted now.");
+						
+						while((orderLine = orderBufferedReader.readLine()) != null) {
+							String[] splitedOrderLine = orderLine.split("-");
+							if(splitedOrderLine[0].equals(splitedOrderItemLine[0])) {
+								Delete.deleteRecord(orderLine, ordersFilePath);
+							}
+						}//end of while
+						orderBufferedReader.close();
+						Delete.deleteRecord(orderItemLine, orderItemsFilePath);
+						System.out.println("Successfully deleted");
+					} else {
+						totalItems-=1;
+						Delete.deleteRecord(orderItemLine, orderItemsFilePath);
+						
+						//Update total bill
+						
+						while((orderLine = orderBufferedReader.readLine()) != null) {
+							String[] splitedOrderLine = orderLine.split("-");
+							
+							if(splitedOrderItemLine[0].equals(splitedOrderLine[0])) {
+								
+								if(splitedOrderItemLine[4].equals("y")) {
+									totalPrice = Float.parseFloat(splitedOrderLine[2])-Float.parseFloat(splitedOrderItemLine[3])-5;
+								} else {
+									totalPrice = Float.parseFloat(splitedOrderLine[2])-Float.parseFloat(splitedOrderItemLine[3]);
+								}
+								
+								String updatedLine = splitedOrderLine[0]+"-"+splitedOrderLine[1]+"-"+totalPrice+"-"+splitedOrderLine[3];
+								
+								Edit.editRecords(orderLine, updatedLine, ordersFilePath);
+							}
+						}//end of while
+						orderBufferedReader.close();
+						
+						System.out.println("Successfully deleted");
+						
+					}//if-else ends
+				}//main if end	
+			}//end of orderItemsBufferedReader while
+			orderItemsBufferedReader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -563,7 +659,7 @@ public class Order implements MainInterface {
 			output.close();
 			
 			System.out.println("* Your order has been placed *");
-			
+			menu(isAdmin);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
