@@ -41,7 +41,6 @@ public class Order implements MainInterface {
 		
 		String option = "-1";
 		
-		
 		if(isAdmin == true) {
 			
 			while(MainInterface.isValidIntInput(option, 3) == false) {
@@ -66,6 +65,7 @@ public class Order implements MainInterface {
 				break;
 			case 1:
 				add();
+				menu(isAdmin);
 				break;
 			case 2:
 				view();
@@ -102,7 +102,7 @@ public class Order implements MainInterface {
 		} else {
 			while(MainInterface.isValidIntInput(option, 2) == false) {
 				
-				System.out.println("\n\n-- ADD ITEM(s) TO ORDER --\n"
+				System.out.println("\n\n-- PLACING NEW ORDER --\n"
 						+ "Enter 1 to search/enter product by name\n"
 						+ "Enter 2 to view list of all products\n"
 						+ "----\n"
@@ -659,7 +659,6 @@ public class Order implements MainInterface {
 			output.close();
 			
 			System.out.println("* Your order has been placed *");
-			menu(isAdmin);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

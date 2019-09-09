@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.Admin.Admin;
+import com.Orders.Order;
 
 import constants.Type;
 import delete.Delete;
@@ -103,11 +104,13 @@ public class Customer implements ClassInterface, MainInterface {
 		
 		if(isAdmin == false) {
 			
-			while(MainInterface.isValidIntInput(option, 2) == false) {
+			while(MainInterface.isValidIntInput(option, 3) == false) {
 				
 					System.out.println("\n\n-- MAIN MENU --\n"
-							+ "Enter 1 to Place a new order\n"
-							+ "Enter 2 to view your orders\n----------\nEnter 0 to exit\n\n"
+							+ "Enter 1 to Place a new ORDER\n"
+							+ "Enter 2 to view your ORDERS\n"
+							+ "Enter 3 to view all PRODUCTS\n----------\n"
+							+ "Enter 0 to exit\n\n"
 							+ "Enter your choice: ");
 					
 					option = input.next();
@@ -119,10 +122,20 @@ public class Customer implements ClassInterface, MainInterface {
 					System.exit(0);
 					break;
 				case "1":
-					System.out.println("You have entered: "+option);
+					//Customer place a new order
+					Order o = new Order();
+					o.add();
+					menu(false);
 					break;
 				case "2":
-					myOrdersMenu();
+					//View Your orders
+					System.out.println("You have entered: "+option);
+					break;
+				case "3":
+					//View All Products
+					ViewRecords v = new ViewRecords();
+					v.viewRecord(Type.PRODUCT);
+					menu(true);
 					break;
 				default:
 					System.out.println("Something is wrong! We are not sure but try again.");
@@ -254,6 +267,7 @@ public class Customer implements ClassInterface, MainInterface {
 
 	@Override
 	public void edit(List<String> recordsToEdit) {
+		
 		// TODO Auto-generated method stub
 		
 		try {
@@ -337,54 +351,5 @@ public class Customer implements ClassInterface, MainInterface {
 		
 		
 	}
-
-	
-	private void myOrdersMenu() {
-		
-//		int option = 3;
-//		
-//		while(!(option == 2 || option == 1 || option == 0)) {
-//			
-//			try {
-//				System.out.println("\n\n-- VIEW ORDERS --\n"
-//						+ "Enter 1 to search orders\n"
-//						+ "Enter 2 to see all your orders\n"
-//						+ "----\n"
-//						+ "Enter 0 to go back to main menu\n\n"
-//						+ "Enter your choice: ");
-//				option = input.nextInt();
-//				
-//				if(option > 2 || option < 0) {
-//					System.out.println("Invalid menu number entered. A valid menu option is required.");
-//				}
-//				
-//			} catch (InputMismatchException ex) {
-//				System.out.println("Invalid menu number entered. A valid menu option is required.");
-//				if(input.hasNextInt()) {
-//					option = input.nextInt();
-//				} else {
-//					input.next();
-//					continue;
-//				}
-//				 //The error occurs here
-//			}
-//		}
-//
-//		switch(option) {
-//		case 0:
-//			menu(false);
-//			break;
-//		case 1:
-//				System.out.println("You have entered: "+option);
-//				break;
-//		case 2:
-//				System.out.println("You have entered: "+option);
-//				break;
-//		default:
-//				System.out.println("Default is running");
-//				break;
-//			}
-	}
-
 
 }
