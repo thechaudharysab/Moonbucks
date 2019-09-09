@@ -26,7 +26,7 @@ public class Customer implements ClassInterface, MainInterface {
 	private static Scanner input = new Scanner(System.in);
 	Writer output;
 	
-	private Boolean isUserAdmin;
+	private Boolean isAdmin;
 	
 	//Constructors
 	public Customer() {
@@ -98,10 +98,10 @@ public class Customer implements ClassInterface, MainInterface {
 	@Override
 	public void menu(Boolean isAdmin) {
 		
-		isUserAdmin = isAdmin;
+		this.isAdmin = isAdmin;
 		String option = "-1";
 		
-		if(isUserAdmin == false) {
+		if(isAdmin == false) {
 			
 			while(MainInterface.isValidIntInput(option, 2) == false) {
 				
@@ -231,7 +231,7 @@ public class Customer implements ClassInterface, MainInterface {
 				
 		ViewRecords v = new ViewRecords();
 		v.viewRecord(Type.CUSTOMER);
-		menu(isUserAdmin);
+		menu(isAdmin);
 		
 	}
 
@@ -248,7 +248,7 @@ public class Customer implements ClassInterface, MainInterface {
 		Search s = new Search();
 		s.search(Type.CUSTOMER, searchQuery, true);
 		
-		menu(isUserAdmin);
+		menu(isAdmin);
 		
 	}
 

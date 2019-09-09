@@ -226,7 +226,7 @@ public class Product implements ClassInterface, MainInterface {
 				Delete.deleteRecord(recordsToDelete.get(i), productsFilePath);
 				System.out.println("\nDeleted "+(i+1)+" of total "+recordsToDelete.size()+" records\n");
 				productBufferedReader.close();
-			}//eo For
+			}//EO For
 			
 		} catch(Exception e) {
 			e.printStackTrace();
