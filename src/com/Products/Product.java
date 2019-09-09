@@ -41,7 +41,7 @@ public class Product implements ClassInterface, MainInterface {
 				System.out.println("\n\n-- PRODUCTS MENU --\n"
 						+ "Enter 1 to Add New Product\n"
 						+ "Enetr 2 to View All Products\n"
-						+ "Enter 3 to Search Products\n"
+						+ "Enter 3 to Search Products (Edit/Delete)\n"
 						+ "----\n"
 						+ "Enter 0 to go back to main menu\n\n"
 						+ "Enter your choice: ");

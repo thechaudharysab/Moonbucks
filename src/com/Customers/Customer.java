@@ -28,6 +28,7 @@ public class Customer implements ClassInterface, MainInterface {
 	Writer output;
 	
 	private Boolean isAdmin;
+	Order o = new Order();
 	
 	//Constructors
 	public Customer() {
@@ -107,9 +108,9 @@ public class Customer implements ClassInterface, MainInterface {
 			while(MainInterface.isValidIntInput(option, 3) == false) {
 				
 					System.out.println("\n\n-- MAIN MENU --\n"
-							+ "Enter 1 to Place a new ORDER\n"
-							+ "Enter 2 to view your ORDERS\n"
-							+ "Enter 3 to view all PRODUCTS\n----------\n"
+							+ "Enter 1 to PLACE a new ORDER\n"
+							+ "Enter 2 to VIEW your ORDERS\n"
+							+ "Enter 3 to VIEW all PRODUCTS\n----------\n"
 							+ "Enter 0 to exit\n\n"
 							+ "Enter your choice: ");
 					
@@ -123,13 +124,13 @@ public class Customer implements ClassInterface, MainInterface {
 					break;
 				case "1":
 					//Customer place a new order
-					Order o = new Order();
 					o.add();
 					menu(false);
 					break;
 				case "2":
 					//View Your orders
-					System.out.println("You have entered: "+option);
+					o.showAllOrdersOfCurrentUser();
+					menu(false);
 					break;
 				case "3":
 					//View All Products

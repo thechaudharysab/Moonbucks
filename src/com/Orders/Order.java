@@ -33,10 +33,6 @@ public class Order implements MainInterface {
 	
 	String searchQuery = null;
 	
-	public void getOrders() {
-		
-	}
-	
 	public void menu(Boolean isAdmin) {
 		
 		String option = "-1";
@@ -69,6 +65,7 @@ public class Order implements MainInterface {
 				break;
 			case 2:
 				view();
+				menu(isAdmin);
 				break;
 			case 3:
 				search();
@@ -217,25 +214,7 @@ public class Order implements MainInterface {
 		case 2:
 			//Only My Orders
 			
-			try {
-				
-				FileReader orderFileReader = new FileReader(ordersFilePath);
-				BufferedReader orderBufferedReader = new  BufferedReader(orderFileReader);
-				String orderLine = null;
-				
-				while((orderLine = orderBufferedReader.readLine()) != null) {
-					String[] splitedOrderLine = orderLine.split("-");
-					if(splitedOrderLine[1].equals(Login.currentUserName)) {
-						printOrderSummary(splitedOrderLine[0]);
-					}
-				}//end of while
-				orderBufferedReader.close();
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			menu(isAdmin);
+			showAllOrdersOfCurrentUser();
 			
 			break;
 		}
@@ -322,7 +301,6 @@ public class Order implements MainInterface {
 		
 	}
 
-	
 	public void edit(String orderID) {
 		// TODO Auto-generated method stub
 		
@@ -402,6 +380,27 @@ public class Order implements MainInterface {
 	}
 	
 	//Other Methods
+	
+	public void showAllOrdersOfCurrentUser() {
+		try {
+			
+			FileReader orderFileReader = new FileReader(ordersFilePath);
+			BufferedReader orderBufferedReader = new  BufferedReader(orderFileReader);
+			String orderLine = null;
+			
+			while((orderLine = orderBufferedReader.readLine()) != null) {
+				String[] splitedOrderLine = orderLine.split("-");
+				if(splitedOrderLine[1].equals(Login.currentUserName)) {
+					printOrderSummary(splitedOrderLine[0]);
+				}
+			}//end of while
+			orderBufferedReader.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void printOrderSummary(String orderID) {
 		try {
 			storedOrderIDs.add(orderID);
