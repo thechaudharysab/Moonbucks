@@ -27,9 +27,9 @@ public class Product implements ClassInterface, MainInterface {
 	private static Scanner input = new Scanner(System.in);
 	Writer output;
 	
-	public Product() {
-		
-	}
+//	public Product() {
+//		
+//	}
 	
 	@Override
 	public void menu(Boolean isAdmin) {
