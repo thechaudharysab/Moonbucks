@@ -14,11 +14,12 @@ import com.Functionality.Delete;
 import com.Functionality.Edit;
 import com.Functionality.Search;
 import com.Functionality.ViewRecords;
+import com.Helpers.ClassInterface;
 import com.Helpers.MainInterface;
 import com.Helpers.Type;
 import com.Main.Login;
 
-public class Order implements MainInterface {
+public class Order implements MainInterface, ClassInterface {
 
 	private static Scanner input = new Scanner(System.in);
 	Boolean isAdmin = true;
@@ -32,6 +33,7 @@ public class Order implements MainInterface {
 	
 	String searchQuery = null;
 	
+	@Override
 	public void menu(Boolean isAdmin) {
 		
 		String option = "-1";
@@ -75,7 +77,8 @@ public class Order implements MainInterface {
 			}
 		
 	}
-
+	
+	@Override
 	public void add() {
 		
 		option = "-1";
@@ -162,7 +165,8 @@ public class Order implements MainInterface {
 		}
 		//EO Switch of MENU 1 \\\\\\\\\\\\\\\\\\
 	}//EO add()
-
+	
+	@Override
 	public void view() {
 		
 		//Show a menu
@@ -219,6 +223,7 @@ public class Order implements MainInterface {
 		}
 	}
 	
+	@Override
 	public void search() {
 		// TODO Auto-generated method stub
 		
@@ -285,7 +290,7 @@ public class Order implements MainInterface {
 				break;
 			case 2:
 				//Search in your products
-				
+				showAllOrdersOfCurrentUser();
 				break;
 			default:
 				System.out.println("Something is wrong! We are not sure but try again.");
@@ -293,10 +298,6 @@ public class Order implements MainInterface {
 			}
 			
 	//	}//id isAdmin true
-		
-		//Show menu to search in all orders or only search in mine
-		//search query
-		//call view function and pass it the query.
 		
 	}
 
@@ -660,6 +661,18 @@ public class Order implements MainInterface {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void edit(List<String> recordsToEdit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(List<String> recordsToDelete) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

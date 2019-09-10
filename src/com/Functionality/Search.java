@@ -22,13 +22,12 @@ public class Search implements MainInterface {
 	Customer c = new Customer();
 	Product p = new Product();
 	
-	public Search() {
-		
-	}
+//	public Search() {
+//		
+//	}
 	
 	public List<String> search(Type searchType, String searchQuery, Boolean showMenu) {
 		
-		//String searchQueryLowerCase = searchQuery.toLowerCase();
 		String filePath = "";
 		foundRecords = new ArrayList<String>();
 		
@@ -50,7 +49,7 @@ public class Search implements MainInterface {
 			FileReader fileReader = new FileReader(filePath);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String oneLine = "";
-			
+		
 			while((oneLine = bufferedReader.readLine()) != null) {
 				//System.out.println("Search Query: "+searchQuery.toLowerCase()+"------ \n");
 				if(oneLine.toLowerCase().contains(searchQuery.toLowerCase())) {
