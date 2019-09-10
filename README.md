@@ -17,5 +17,5 @@ Customer can:
 - View Orders
 - View PRoducts
 <p> Actors should be able to login in order to access the system.
-<br /> Program uses text files (.txt) to perform read/write operations.
+<br /> Program uses text files (.txt) to perform read/write operations.<br /><br />Refer to **Videos** folder to see output.
 <img src="General-Overview.jpg" align="center"/>
