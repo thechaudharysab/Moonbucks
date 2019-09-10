@@ -9,14 +9,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.Admin.Admin;
-
-import constants.Type;
-import delete.Delete;
-import edit.Edit;
-import interfaces.ClassInterface;
-import interfaces.MainInterface;
-import search.Search;
-import view.ViewRecords;
+import com.Functionality.Delete;
+import com.Functionality.Edit;
+import com.Functionality.Search;
+import com.Functionality.ViewRecords;
+import com.Helpers.ClassInterface;
+import com.Helpers.MainInterface;
+import com.Helpers.Type;
 
 public class Product implements ClassInterface, MainInterface {
 	

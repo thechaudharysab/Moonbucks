@@ -1,4 +1,4 @@
-package constants;
+package com.Helpers;
 
 public enum Type {
 	CUSTOMER,

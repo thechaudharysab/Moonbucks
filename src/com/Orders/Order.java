@@ -10,14 +10,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.Admin.Admin;
+import com.Functionality.Delete;
+import com.Functionality.Edit;
+import com.Functionality.Search;
+import com.Functionality.ViewRecords;
+import com.Helpers.MainInterface;
+import com.Helpers.Type;
 import com.Main.Login;
-
-import constants.Type;
-import delete.Delete;
-import edit.Edit;
-import interfaces.MainInterface;
-import search.Search;
-import view.ViewRecords;
 
 public class Order implements MainInterface {
 

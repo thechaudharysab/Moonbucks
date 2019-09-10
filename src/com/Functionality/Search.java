@@ -1,4 +1,4 @@
-package search;
+package com.Functionality;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.Customers.Customer;
+import com.Helpers.MainInterface;
+import com.Helpers.Type;
 import com.Products.Product;
-
-import constants.Type;
-import interfaces.MainInterface;
 
 public class Search implements MainInterface {
 	

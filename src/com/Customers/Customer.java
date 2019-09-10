@@ -4,15 +4,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.Admin.Admin;
+import com.Functionality.Delete;
+import com.Functionality.Edit;
+import com.Functionality.Search;
+import com.Functionality.ViewRecords;
+import com.Helpers.ClassInterface;
+import com.Helpers.MainInterface;
+import com.Helpers.Type;
 import com.Orders.Order;
-
-import constants.Type;
-import delete.Delete;
-import edit.Edit;
-import interfaces.ClassInterface;
-import interfaces.MainInterface;
-import search.Search;
-import view.ViewRecords;
 
 public class Customer implements ClassInterface, MainInterface {
 	
@@ -21,8 +20,6 @@ public class Customer implements ClassInterface, MainInterface {
 	private String customerAddress;
 	private String customerPhone;
 	protected String password;
-	
-	//public static String currentUserName = "";
 	
 	private static Scanner input = new Scanner(System.in);
 	Writer output;
@@ -50,22 +47,11 @@ public class Customer implements ClassInterface, MainInterface {
 	}
 	
 	//Getter
-//	public String getCustomerID() {
-//		return customerID;
-//	}
-//	
+
 	public String getcustomerName() {
 		return customerName;
 	}
-//	
-//	public String getcustomerAddress() {
-//		return customerAddress;
-//	}
-//	
-//	public String getcustomerPhone() {
-//		return customerPhone;
-//	}
-//	
+	
 	//Setter
 	private void readAndSetCustomerValues(String username) {
 		
@@ -110,8 +96,8 @@ public class Customer implements ClassInterface, MainInterface {
 					System.out.println("\n\n-- MAIN MENU --\n"
 							+ "Enter 1 to PLACE a new ORDER\n"
 							+ "Enter 2 to VIEW your ORDERS\n"
-							+ "Enter 3 to VIEW all PRODUCTS\n----------\n"
-							+ "Enter 0 to exit\n\n"
+							+ "Enter 3 to VIEW all PRODUCTS\n"
+							+ "Enter 0 to EXIT\n\n"
 							+ "Enter your choice: ");
 					
 					option = input.next();
@@ -148,10 +134,9 @@ public class Customer implements ClassInterface, MainInterface {
 			while(MainInterface.isValidIntInput(option, 3) == false) {
 				
 					System.out.println("\n\n-- CUSTOMERS MENU --\n"
-							+ "Enter 1 to Add New Customer\n"
-							+ "Enetr 2 to View All Customers\n"
-							+ "Enter 3 to Search Customers (Edit/Delete Records)\n"
-							+ "----\n"
+							+ "Enter 1 to ADD new Customer\n"
+							+ "Enetr 2 to VIEW all Customers\n"
+							+ "Enter 3 to SEARCH Customers (Edit/Delete Records)\n"
 							+ "Enter 0 to go back to main menu\n\n"
 							+ "Enter your choice: ");
 					
@@ -253,7 +238,7 @@ public class Customer implements ClassInterface, MainInterface {
 	public void search() {  
 		String searchQuery = "";
 		
-		System.out.print("\n* Search Customers *\n---------------------------\n");
+		System.out.print("\n* Search Customers *\n||||||||||||||||||||||||||||||||||\n");
 		System.out.println("Enter Search Query: ");
 		
 		searchQuery = input.next();
@@ -286,7 +271,7 @@ public class Customer implements ClassInterface, MainInterface {
 				
 				if(arrOfUser[0].equals(arrOfFoundRecords[0])) {
 					
-					System.out.println("------\n*Editing Record*\n------");
+					System.out.println("* Editing Record *\n||||||||||||||||||||||||||||||||||\n");
 					System.out.println(arrOfFoundRecords[1]+" -- "+arrOfFoundRecords[2]+" -- "+arrOfFoundRecords[3]+"\n");
 					System.out.println("------------------------------------\n");
 					

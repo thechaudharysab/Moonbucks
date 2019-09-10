@@ -1,10 +1,10 @@
-package view;
+package com.Functionality;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import constants.Type;
-import interfaces.MainInterface;
+import com.Helpers.MainInterface;
+import com.Helpers.Type;
 
 public class ViewRecords implements MainInterface {
 	

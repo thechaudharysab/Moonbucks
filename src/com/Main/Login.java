@@ -5,8 +5,7 @@ import java.util.Scanner;
 
 import com.Admin.Admin;
 import com.Customers.Customer;
-
-import interfaces.MainInterface;
+import com.Helpers.MainInterface;
 
 public class Login implements MainInterface {
 
@@ -53,9 +52,9 @@ public class Login implements MainInterface {
 	private static void loginInput() {
 		
 		System.out.print("\nUsername: ");
-		username = input.next();		
+		username = input.nextLine();		
 		System.out.print("Password: ");
-		password = input.next();
+		password = input.nextLine();
 		
 		validateUserLogin();
 		

@@ -2,10 +2,9 @@ package com.Admin;
 import java.util.Scanner;
 
 import com.Customers.Customer;
+import com.Helpers.MainInterface;
 import com.Orders.Order;
 import com.Products.Product;
-
-import interfaces.MainInterface;
 
 public class Admin implements MainInterface {
 	
@@ -14,28 +13,20 @@ public class Admin implements MainInterface {
 	Product p = new Product();
 	Order o = new Order();
 	
-	//public static String currentUserName = "";
-	
-	public Admin() {
-		
-	}
-	
 	public void adminMainMenu() {
 		
 		String option = "-1";
 		
 		do {
-			System.out.println("\n\n-- MAIN MENU --\n"
-					+ "Enter 1 for Customers\n"
-					+ "Enetr 2 for Products\n"
-					+ "Enter 3 for Orders\n-----------\n"
-					+ "Enter 0 to exit\n\n"
+			System.out.println("\n-- MAIN MENU --\n"
+					+ "Enter 1 for CUSTOMERS\n"
+					+ "Enetr 2 for PRODUCTS\n"
+					+ "Enter 3 for ORDERS\n"
+					+ "Enter 0 to EXIT\n\n"
 					+ "Enter your choice: ");
 			
 			option = input.next();
 		} while(MainInterface.isValidIntInput(option, 3) == false); 
-			
-		//System.out.print("options here is: "+option+"\n");
 		
 		switch(Integer.parseInt(option)) {
 			case 0:
