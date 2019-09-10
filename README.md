@@ -12,8 +12,10 @@ Admin can **Add/Edit/Update/Edit/Delete**:
 - Products
 - Orders
 
-Customer can **Add/Edit/Update/Edit/Delete**:
-- Orders
+Customer can:
+- Place Order
+- View Orders
+- View PRoducts
 <p> Actors should be able to login in order to access the system.
 <br /> Program uses text files (.txt) to perform read/write operations.
 <img src="General-Overview.jpg" align="center"/>
