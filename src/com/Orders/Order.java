@@ -66,7 +66,6 @@ public class Order implements MainInterface, ClassInterface {
 				break;
 			case 2:
 				view();
-				menu(isAdmin);
 				break;
 			case 3:
 				search();
@@ -177,8 +176,8 @@ public class Order implements MainInterface, ClassInterface {
 			
 			//TODO should we give an option to remove an item from cart?
 			
-			System.out.println("\n\n-- MENU --\n"
-					+ "Enter 1 view all placed orders\n"
+			System.out.println("\n\n-- Additional Options --\n"
+					+ "Enter 1 view all orders\n"
 					+ "Enter 2 view only your orders\n"
 					+ "----\n"
 					+ "Enter 0 to go back to orders menu\n\n"
@@ -218,7 +217,7 @@ public class Order implements MainInterface, ClassInterface {
 			//Only My Orders
 			
 			showAllOrdersOfCurrentUser();
-			
+			menu(isAdmin);
 			break;
 		}
 	}
@@ -244,12 +243,6 @@ public class Order implements MainInterface, ClassInterface {
 
 			}//eo While
 			
-			String searchQuery = "";
-			
-			System.out.print("\n* Search Orders *\n---------------------------\n");
-			System.out.println("Enter Product Name: ");
-			searchQuery = input.next();
-			searchQuery += input.nextLine();
 			
 			switch(Integer.parseInt(option)) {
 			case 0:
@@ -258,6 +251,13 @@ public class Order implements MainInterface, ClassInterface {
 			case 1:
 				//Search in all products
 				try {
+					
+					String searchQuery = "";
+					
+					System.out.print("\n* Search Orders *\n---------------------------\n");
+					System.out.println("Enter Product Name: ");
+					searchQuery = input.next();
+					searchQuery += input.nextLine();
 					
 					FileReader orderItemsFileReader = new FileReader(orderItemsFilePath);
 					BufferedReader orderItemsBufferedReader = new  BufferedReader(orderItemsFileReader);

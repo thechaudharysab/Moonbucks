@@ -136,7 +136,7 @@ public class Product implements ClassInterface, MainInterface {
 		searchQuery += input.nextLine();
 		Search s = new Search();
 		
-		System.out.println("Search Query 1: "+searchQuery.toLowerCase()+"------ \n");
+		//System.out.println("Search Query: "+searchQuery.toLowerCase()+"------ \n");
 		s.search(Type.PRODUCT, searchQuery, true);
 		
 		menu(true);
