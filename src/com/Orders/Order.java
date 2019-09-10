@@ -14,15 +14,14 @@ import com.Functionality.Delete;
 import com.Functionality.Edit;
 import com.Functionality.Search;
 import com.Functionality.ViewRecords;
-import com.Helpers.ClassInterface;
 import com.Helpers.MainInterface;
 import com.Helpers.Type;
 import com.Main.Login;
 
-public class Order implements MainInterface, ClassInterface {
+public class Order implements MainInterface {
 
 	private static Scanner input = new Scanner(System.in);
-	Boolean isAdmin = true;
+	Boolean isAdmin;
 	float totalPrice = 0;
 	Writer output;
 	String option = "-1";
@@ -33,10 +32,11 @@ public class Order implements MainInterface, ClassInterface {
 	
 	String searchQuery = null;
 	
-	@Override
+	
 	public void menu(Boolean isAdmin) {
 		
 		String option = "-1";
+		this.isAdmin = isAdmin;
 		
 		if(isAdmin == true) {
 			
@@ -61,7 +61,7 @@ public class Order implements MainInterface, ClassInterface {
 				a.adminMainMenu();
 				break;
 			case 1:
-				add();
+				add(true);
 				menu(isAdmin);
 				break;
 			case 2:
@@ -77,19 +77,20 @@ public class Order implements MainInterface, ClassInterface {
 		
 	}
 	
-	@Override
-	public void add() {
+	
+	public void add(Boolean isAdmin) {
 		
 		option = "-1";
+		this.isAdmin = isAdmin;
 		
 		//MENU 1
 		if(productsList.size()>0) {
 			while(MainInterface.isValidIntInput(option, 3) == false) {
 				
 				System.out.println("\n\n-- ADD ITEM(s) TO ORDER --\n"
-						+ "Enter 1 to search/enter product by name\n"
-						+ "Enter 2 to view list of all products\n"
-						+ "Enter 3 to view cart\n"
+						+ "Enter 1 to SEARCH/ADD PRODUCT by name\n"
+						+ "Enter 2 to VIEW list of all PRODUCTS\n"
+						+ "Enter 3 to VIEW CART\n"
 						+ "----\n"
 						+ "Enter 0 to discard this order and go back to orders main menu\n\n"
 						+ "Enter your choice: ");
@@ -101,10 +102,10 @@ public class Order implements MainInterface, ClassInterface {
 			while(MainInterface.isValidIntInput(option, 2) == false) {
 				
 				System.out.println("\n\n-- PLACING NEW ORDER --\n"
-						+ "Enter 1 to search/enter product by name\n"
-						+ "Enter 2 to view list of all products\n"
+						+ "Enter 1 to SEARCH/ADD PRODUCT by name\n"
+						+ "Enter 2 to VIEW list of all PRODUCTS\n"
 						+ "----\n"
-						+ "Enter 0 to go back to orders main menu\n\n"
+						+ "Enter 0 to go back\n\n"
 						+ "Enter your choice: ");
 				
 				option = input.next();
@@ -118,7 +119,11 @@ public class Order implements MainInterface, ClassInterface {
 		case 0:
 			totalPrice = 0;
 			productsList.clear();
-			menu(isAdmin);
+			if(isAdmin == true) {
+				menu(isAdmin);
+			} else {
+				break;
+			}
 			break;//case 0 of menu 1
 		case 1:
 			//search products
@@ -129,9 +134,8 @@ public class Order implements MainInterface, ClassInterface {
 				
 				//MENU 2
 				System.out.println("\n----\n"
-							+ "Enter 1 to add this product to cart\n"
-							+ "----\n"
-							+ "Enter 0 to go back to orders menu\n\n"
+							+ "Enter 1 to ADD this PRODUCT to CART\n"
+							+ "Enter 0 to go back to ORDERS MENU\n\n"
 							+ "Enter your choice: ");
 					
 					option = input.next();
@@ -141,12 +145,16 @@ public class Order implements MainInterface, ClassInterface {
 			//Switch of MENU 2 \\\\\\\\\\\\\\\\\\
 			switch(Integer.parseInt(option)) {
 			case 0:
-				add();
+				if(isAdmin == true) {
+					add(isAdmin);
+				} else {
+					break;
+				}
 				break; //case 0 of menu 2
 			case 1:
 				productsList.add(searchResult.get(0));
 				System.out.println("* Product added to cart *");
-				add();
+				add(isAdmin);
 				break; //case 1 of menu 2
 			}
 			//Switch of MENU 2 \\\\\\\\\\\\\\\\\\
@@ -156,7 +164,7 @@ public class Order implements MainInterface, ClassInterface {
 			//View list of products
 			ViewRecords v = new ViewRecords();
 			v.viewRecord(Type.PRODUCT);
-			add();
+			add(isAdmin);
 			break;//case 2 of menu 1
 		case 3:
 			viewCart();
@@ -165,7 +173,7 @@ public class Order implements MainInterface, ClassInterface {
 		//EO Switch of MENU 1 \\\\\\\\\\\\\\\\\\
 	}//EO add()
 	
-	@Override
+	
 	public void view() {
 		
 		//Show a menu
@@ -173,8 +181,6 @@ public class Order implements MainInterface, ClassInterface {
 		storedOrderIDs.clear();
 		
 		while(MainInterface.isValidIntInput(option, 2) == false) {
-			
-			//TODO should we give an option to remove an item from cart?
 			
 			System.out.println("\n\n-- Additional Options --\n"
 					+ "Enter 1 view all orders\n"
@@ -222,34 +228,13 @@ public class Order implements MainInterface, ClassInterface {
 		}
 	}
 	
-	@Override
+	
 	public void search() {
-		// TODO Auto-generated method stub
 		
-	//	if(isAdmin == true) {
 		option = "-1";
 		storedOrderIDs.clear();
 		
-			while(MainInterface.isValidIntInput(option, 3) == false) {
-				
-				System.out.println("\n\n-- SEARCH ORDERS --\n"
-						+ "Enter 1 to Search in all orders\n"
-						+ "Enetr 2 to Search in your orders\n"
-						+ "----\n"
-						+ "Enter 0 to go back to main menu\n\n"
-						+ "Enter your choice: ");
-				
-				option = input.next();
 
-			}//eo While
-			
-			
-			switch(Integer.parseInt(option)) {
-			case 0:
-				menu(isAdmin);
-				break;
-			case 1:
-				//Search in all products
 				try {
 					
 					String searchQuery = "";
@@ -286,23 +271,10 @@ public class Order implements MainInterface, ClassInterface {
 				} else {
 					menu(isAdmin);
 				}
-				
-				break;
-			case 2:
-				//Search in your products
-				showAllOrdersOfCurrentUser();
-				break;
-			default:
-				System.out.println("Something is wrong! We are not sure but try again.");
-				break;
-			}
-			
-	//	}//id isAdmin true
 		
 	}
 
 	public void edit(String orderID) {
-		// TODO Auto-generated method stub
 		
 		System.out.println("--------- Editing Order ---------");
 		printOrderSummary(orderID);
@@ -335,12 +307,9 @@ public class Order implements MainInterface, ClassInterface {
 		}
 		
 	}
-
 	
 	public void delete(String orderID) {
-		// TODO Auto-generated method stub
-		//in deleting you can delete a full order
-		//Admin can delete all orders
+
 		
 		try {
 			FileReader orderFileReader = new FileReader(ordersFilePath);
@@ -452,8 +421,6 @@ public class Order implements MainInterface, ClassInterface {
 		option = "-1";
 		
 		while(MainInterface.isValidIntInput(option, 2) == false) {
-			
-			//TODO should we give an option to remove an item from cart?
 			
 			System.out.println("\n\n-- Additional Options --\n"
 					+ "Enter 1 to EDIT these order(s)\n"
@@ -569,8 +536,8 @@ public class Order implements MainInterface, ClassInterface {
 		
 		if(searchResult.size() !=1) {
 			searchResult.clear();
-			System.out.println("Which product do you want to buy? Be specific.");
-			add();
+			System.out.println("Be specific about which product do you want to buy!");
+			add(isAdmin);
 		} else if(searchResult.size() == 1) {
 			
 			//Print result
@@ -610,12 +577,12 @@ public class Order implements MainInterface, ClassInterface {
 		option = "-1";
 		
 		while(MainInterface.isValidIntInput(option, 2) == false) {
-			//TODO should we give an option to remove an item from cart?
+
 			System.out.println("\n\n-- OPTIONS --\n"
-					+ "Enter 1 to add more items\n"
-					+ "Enetr 2 to checkout\n"
+					+ "Enter 1 to Add more ITEMS\n"
+					+ "Enetr 2 to CHECKOUT\n"
 					+ "----\n"
-					+ "Enter 0 to discard this order and go back to orders main menu\n\n"
+					+ "Enter 0 to discard this order and go back\n\n"
 					+ "Enter your choice: ");
 			
 			option = input.next();
@@ -626,9 +593,15 @@ public class Order implements MainInterface, ClassInterface {
 		case 0:
 			totalPrice = 0;
 			productsList.clear();
-			menu(isAdmin);
+			if(isAdmin == true) {
+				menu(isAdmin);
+			} else {
+				break;
+			}
 			break;
 		case 1:
+			//Back to menu
+			add(isAdmin);
 			break;
 		case 2:
 			checkOut();
@@ -657,22 +630,25 @@ public class Order implements MainInterface, ClassInterface {
 			output.write(orderID+"-"+currentUserName+"-"+totalPrice+"-"+MainInterface.getDateTimeNow()+"\n");
 			output.close();
 			
+			storedOrderIDs.clear();
+			searchResult.clear();
+			productsList.clear();
 			System.out.println("* Your order has been placed *");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Override
-	public void edit(List<String> recordsToEdit) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(List<String> recordsToDelete) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void edit(List<String> recordsToEdit) {
+//		
+//		
+//	}
+//
+//	@Override
+//	public void delete(List<String> recordsToDelete) {
+//		
+//		
+//	}
 	
 }

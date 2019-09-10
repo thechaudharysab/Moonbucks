@@ -110,7 +110,7 @@ public class Customer implements ClassInterface, MainInterface {
 					break;
 				case "1":
 					//Customer place a new order
-					o.add();
+					o.add(isAdmin);
 					menu(false);
 					break;
 				case "2":
@@ -122,7 +122,7 @@ public class Customer implements ClassInterface, MainInterface {
 					//View All Products
 					ViewRecords v = new ViewRecords();
 					v.viewRecord(Type.PRODUCT);
-					menu(true);
+					menu(false);
 					break;
 				default:
 					System.out.println("Something is wrong! We are not sure but try again.");
